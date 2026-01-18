@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Game Studio | Leerlingen Portaal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --sidebar-width: 320px;
+        }
+
+        /* Dark Mode Transitions */
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar,
+        .lesson-card,
+        .bg-white,
+        .sidebar-link {
+            transition: all 0.3s ease;
+        }
+
+        /* Dark Mode Overrides */
+        .dark body {
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .dark .bg-white {
+            background-color: #0f172a !important;
+            border-color: #1e293b !important;
+        }
+
+        .dark .text-slate-900,
+        .dark .text-slate-800 {
+            color: #f1f5f9 !important;
+        }
+
+        .dark .text-slate-600,
+        .dark .text-slate-500 {
+            color: #94a3b8 !important;
+        }
+
+        .dark nav {
+            background-color: #0f172a !important;
+            border-color: #1e293b !important;
+        }
+
+        .dark .sidebar-link:hover {
+            background-color: #1e293b;
+            color: #f1f5f9;
+        }
+
+        .dark .bg-slate-50,
+        .dark .bg-slate-100 {
+            background-color: #1e293b !important;
+        }
+
+        .dark .border-slate-100,
+        .dark .border-slate-200 {
+            border-color: #334155 !important;
+        }
+
+        .dark .infographic-card:hover {
+            background-color: #1e293b !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+        }
+
+        .arcade-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(to right, #8b5cf6, #d946ef);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .lesson-card {
+            display: none;
+        }
+
+        .lesson-card.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            border-left: 4px solid #8b5cf6;
+            overflow-x: auto;
+            word-break: break-all;
+        }
+
+        .mission-badge {
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: #8b5cf6;
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        .btn-tutorial {
+            display: inline-flex;
+            align-items: center;
+            background: #8b5cf6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #6d28d9;
+        }
+
+        .btn-tutorial:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #6d28d9;
+            background: #7c3aed;
+        }
+
+        .btn-tutorial:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 #6d28d9;
+        }
+
+        .btn-secondary-tutorial {
+            display: inline-flex;
+            align-items: center;
+            background: #ec4899;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #be185d;
+        }
+
+        .btn-secondary-tutorial:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #be185d;
+            background: #db2777;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -10px;
+            top: 6px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 4px solid #8b5cf6;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        /* Infographic Styles */
+        .infographic-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .infographic-card:hover {
+            transform: translateX(10px);
+            background-color: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* UI Element Highlight Styles */
+        .ui-btn-hint {
+            background-color: #8b5cf6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            box-shadow: 0 2px 0 #6d28d9;
+            display: inline-block;
+            margin: 0 2px;
+        }
+
+        /* Shake Animation for Simulator */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translate(-4px, -2px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translate(4px, 2px);
+            }
+        }
+
+        .shake-animation {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="text-slate-900">
+
+    <div class="flex flex-col lg:flex-row min-h-screen">
+
+        <!-- Sidebar -->
+        <nav
+            class="w-full lg:w-80 bg-white border-r border-slate-200 p-6 lg:sticky lg:top-0 lg:h-screen overflow-y-auto">
+            <div class="mb-10 flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-xl text-slate-800 leading-tight">Arcade Studio</h1>
+                    <p class="text-[10px] arcade-font text-violet-500 uppercase">Junior Dev Portal</p>
+                </div>
+                <button onclick="toggleDarkMode()"
+                    class="ml-auto w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500"
+                    id="theme-toggle">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 ml-2">Algemeen</p>
+                <button onclick="showLesson('overview')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
+                    <i class="fas fa-map-signs mr-3 opacity-50"></i> Cursus Overzicht
+                </button>
+                <button onclick="showLesson('arcade-guide')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-6 active">
+                    <i class="fas fa-book-open mr-3 opacity-50"></i> MakeCode Arcade Gids
+                </button>
+
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 ml-2"
+                    style="margin-top: 16px; margin-bottom: 16px;">Training Levels</p>
+                <button onclick="showLesson('week1')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
+                    <span class="mr-3 opacity-50">01</span> De Fundering
+                </button>
+                <button onclick="showLesson('week2')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
+                    <span class="mr-3 opacity-50">02</span> Space Shooter
+                </button>
+                <button onclick="showLesson('week3')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
+                    <span class="mr-3 opacity-50">03</span> Verhaal en keuzes
+                </button>
+                <button onclick="showLesson('week4')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-6">
+                    <span class="mr-3 opacity-50">04</span> Werelden Bouwen
+                </button>
+
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-2"
+                    style="margin-top: 16px; margin-bottom: 16px;">The Big Project</p>
+                <button onclick="showLesson('week5')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
+                    <span class="mr-3 opacity-50">05</span> De Blauwdruk
+                </button>
+                <button onclick="showLesson('week6')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
+                    <span class="mr-3 opacity-50">06</span> De Bouwfase
+                </button>
+                <button onclick="showLesson('week7')"
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
+                    <span class="mr-3 opacity-50">07</span> Launch Day!
+                </button>
+            </div>
+
+            <div class="mt-12 p-5 bg-slate-900 rounded-2xl text-white">
+                <p class="text-[10px] arcade-font mb-4 text-emerald-400">System Ready</p>
+                <a href="https://arcade.makecode.com" target="_blank"
+                    class="block text-center bg-violet-600 hover:bg-violet-500 py-3 rounded-xl font-bold text-xs transition-colors">
+                    NAAR MAKECODE <i class="fas fa-external-link-alt ml-2"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="flex-1 p-6 lg:p-16 max-w-6xl mx-auto">
+
+            <!-- OVERZICHT -->
+            <div id="overview" class="lesson-card">
+                <div class="text-center mb-16">
+                    <span class="mission-badge">Roadmap 2026</span>
+                    <h2 class="text-5xl font-extrabold text-slate-900 dark:text-white mt-6 mb-4 tracking-tight">De Reis
+                        van de Developer
+                    </h2>
+                    <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-10">Van de eerste pixels
+                        tot een compleet eigen
+                        universum. Dit is jouw pad in de Arcade Game Studio.</p>
+
+                    <!-- Roadmap Infographic -->
+                    <div
+                        class="mb-12 group relative inline-block max-w-full overflow-hidden rounded-3xl shadow-2xl border-4 border-white dark:border-slate-700">
+                        <img src="assets/roadmap_infographic.jpg" alt="Roadmap Infographic"
+                            class="w-full h-auto transition-transform duration-500 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <a href="assets/roadmap_infographic.jpg" target="_blank"
+                                class="bg-white text-slate-900 px-6 py-3 rounded-xl font-bold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                <i class="fas fa-search-plus"></i> BEKIJK IN HET GROOT
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative space-y-4">
+                    <div
+                        class="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-violet-500 via-fuchsia-500 to-emerald-500 rounded-full opacity-20 hidden md:block">
+                    </div>
+
+                    <div onclick="showLesson('week1')"
+                        class="infographic-card group relative md:ml-16 p-8 rounded-3xl bg-slate-50 border-l-4 border-violet-500 cursor-pointer">
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm text-violet-500 flex-shrink-0">
+                                <i class="fas fa-pizza-slice"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-2">Week 1: De Fundering</h3>
+                                <p class="text-slate-500 leading-relaxed">De start van je avontuur. Maak kennis met de
+                                    coördinaten van het scherm en bouw je eerste vang-spel: <strong>Chase the
+                                        Pizza</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="showLesson('week2')"
+                        class="infographic-card group relative md:ml-16 p-8 rounded-3xl bg-slate-50 border-l-4 border-blue-500 cursor-pointer">
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm text-blue-500 flex-shrink-0">
+                                <i class="fas fa-fighter-jet"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-2">Week 2: Space Shooter</h3>
+                                <p class="text-slate-500 leading-relaxed">Tijd voor actie en automatisering. Leer werken
+                                    met <strong>Game Loops</strong> en <strong>Variabelen</strong> om vijanden te laten
+                                    spawnen en scores bij te houden.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="showLesson('week3')"
+                        class="infographic-card group relative md:ml-16 p-8 rounded-3xl bg-slate-50 border-l-4 border-pink-500 cursor-pointer">
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm text-pink-500 flex-shrink-0">
+                                <i class="fas fa-scroll"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-2">Week 3: Verhaal en keuzes</h3>
+                                <p class="text-slate-500 leading-relaxed">Word een Verhaalmeester. Gebruik
+                                    <strong>Conditionals</strong> (Als-Dan) om interactieve dialogen te maken waar de
+                                    keuzes van de speler het einde bepalen.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="showLesson('week4')"
+                        class="infographic-card group relative md:ml-16 p-8 rounded-3xl bg-slate-50 border-l-4 border-emerald-500 cursor-pointer">
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm text-emerald-500 flex-shrink-0">
+                                <i class="fas fa-globe-europe"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-2">Week 4: Werelden Bouwen</h3>
+                                <p class="text-slate-500 leading-relaxed">Beheers de omgeving. Kies tussen de
+                                    natuurkunde van een <strong>Platformer</strong> of de complexe muren van een
+                                    <strong>Maze game</strong> via Tilemaps.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="showLesson('week5')"
+                        class="infographic-card group relative md:ml-16 p-8 rounded-3xl bg-slate-50 border-l-4 border-amber-500 cursor-pointer">
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm text-amber-500 flex-shrink-0">
+                                <i class="fas fa-pencil-ruler"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-2">Week 5: De Blauwdruk</h3>
+                                <p class="text-slate-500 leading-relaxed">De start van 'The Big Project'. Gebruik de
+                                    <strong>MoSCoW-methode</strong> om je eigen game te ontwerpen en teken je eerste
+                                    unieke assets.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="showLesson('week6')"
+                        class="infographic-card group relative md:ml-16 p-8 rounded-3xl bg-slate-50 border-l-4 border-indigo-500 cursor-pointer">
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm text-indigo-500 flex-shrink-0">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-2">Week 6: De Bouwfase</h3>
+                                <p class="text-slate-500 leading-relaxed">Hardcore coding sessie. Bouw de systemen van
+                                    je game en voer <strong>Alpha-tests</strong> uit met je Buddy om de gameplay te
+                                    perfectioneren.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="showLesson('week7')"
+                        class="infographic-card group relative md:ml-16 p-8 rounded-3xl bg-slate-50 border-l-4 border-red-500 cursor-pointer">
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm text-red-500 flex-shrink-0">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-2">Week 7: Launch Day!</h3>
+                                <p class="text-slate-500 leading-relaxed">De grote finale. Voeg de 'Juice' toe voor
+                                    extra sfeer en schitter tijdens de <strong>Arcade Expo</strong> waar alle games op
+                                    de echte arcadekast worden gezet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAKECODE ARCADE GIDS -->
+            <div id="arcade-guide" class="lesson-card">
+                <div class="mb-12">
+                    <span class="mission-badge">Manual</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">MakeCode Arcade Gids</h2>
+                    <p class="text-lg text-slate-600 mb-6">Alles wat je moet weten over het platform. Van
+                        taalinstellingen tot het testen van je game. <strong>Let op:</strong> sommige features zijn
+                        niet beschikbaar tijdens het maken van tutorials!</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <!-- Taalinstellingen -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3 class="font-bold text-xl mb-6 text-violet-600 flex items-center gap-2">
+                            <i class="fas fa-language"></i> Website op Nederlands zetten
+                        </h3>
+                        <ol class="space-y-4 text-slate-600 text-sm">
+                            <li class="flex items-start gap-3">
+                                <span class="step-number">1</span>
+                                <span>Klik op het <strong>tandwiel-icoon</strong> (instellingen) rechtsboven in de
+                                    editor.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number">2</span>
+                                <span>Kies de optie <strong>Language</strong> in het menu.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number">3</span>
+                                <span>Zoek in de lijst naar <strong>Nederlands</strong> en selecteer dit.</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Blokken Systeem -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3 class="font-bold text-xl mb-6 text-emerald-600 flex items-center gap-2">
+                            <i class="fas fa-puzzle-piece"></i> Werken met Blokken
+                        </h3>
+                        <ul class="space-y-4 text-slate-600 text-sm">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check text-emerald-500 mt-1"></i>
+                                <span><strong>Slepen:</strong> Pak een blok uit de toolbox en sleep deze naar je
+                                    werkveld.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-exclamation-triangle text-amber-500 mt-1"></i>
+                                <span><strong>Grijs?</strong> Als blokken grijs zijn, zijn ze niet goed verbonden en
+                                    doen ze niks!</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-palette text-blue-500 mt-1"></i>
+                                <span><strong>Kleuren:</strong> Elke kleur hoort bij een categorie (Scene, Sprites,
+                                    Logica).</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Assets Row -->
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <!-- Sprites & Plaatjes -->
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="font-bold text-xl mb-6 text-pink-600 flex items-center gap-2">
+                            <i class="fas fa-paint-brush"></i> Sprites & Plaatjes maken
+                        </h3>
+                        <ol class="space-y-4 text-slate-600 dark:text-slate-300 text-sm">
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #db2777;">1</span>
+                                <span>Ga naar de categorie <strong>Sprites</strong> in de toolbox.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #db2777;">2</span>
+                                <span>Klik op het <strong>grijze vierkantje</strong> in een <code>set mySprite to</code>
+                                    blok.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #db2777;">3</span>
+                                <span>Teken zelf iets in de <strong>Editor</strong> of kies een kant-en-klaar plaatje
+                                    uit de <strong>Gallery</strong>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #db2777;">4</span>
+                                <span>Klaar? Klik op <strong>Done</strong> om je sprite op te slaan in het blok.</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Geluid & Muziek -->
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="font-bold text-xl mb-6 text-blue-600 flex items-center gap-2">
+                            <i class="fas fa-music"></i> Geluid & Muziek toevoegen
+                        </h3>
+                        <ol class="space-y-4 text-slate-600 dark:text-slate-300 text-sm">
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #2563eb;">1</span>
+                                <span>Ga naar de categorie <strong>Music</strong> in de toolbox.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #2563eb;">2</span>
+                                <span>Sleep een <code>play sound</code> of <code>play melody</code> blok in je
+                                    code.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #2563eb;">3</span>
+                                <span>Klik op de <strong>editor-balk</strong> in het blok om je eigen geluidseffect of
+                                    muziekje te ontwerpen!</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="background-color: #2563eb;">4</span>
+                                <span>Klaar? Klik op <strong>Done</strong> om je muziek of geluidseffect op te
+                                    slaan in het blok.</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Simulator & Video Row -->
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <!-- Simulator -->
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="font-bold text-xl mb-6 text-emerald-600 flex items-center gap-2">
+                            <i class="fas fa-gamepad"></i> De Simulator gebruiken
+                        </h3>
+                        <ul class="space-y-4 text-slate-600 dark:text-slate-300 text-sm">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-keyboard text-emerald-500 mt-1"></i>
+                                <span><strong>Besturing:</strong> Gebruik de <strong>pijltjestoetsen</strong> of
+                                    <strong>WASD</strong>. De <strong>Spatiebalk</strong> werkt als de A-knop.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-bug text-emerald-500 mt-1"></i>
+                                <span><strong>Debuggen:</strong> Klik op het <strong>kever-icoon</strong> (Bug). In de
+                                    nieuwe balk die bovenin verschijnt vind je het <strong>slak-icoon</strong>
+                                    (Slow-mo).</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-redo text-emerald-500 mt-1"></i>
+                                <span><strong>Herstarten:</strong> Klik op de ronde pijl om je game opnieuw te laden na
+                                    een aanpassing.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-camera text-emerald-500 mt-1"></i>
+                                <span><strong>Screenshot:</strong> Gebruik het camera-icoon voor een plaatje van je
+                                    gameplay of assets.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Video Voorbeeld -->
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="font-bold text-xl mb-6 text-red-600 flex items-center gap-2">
+                            <i class="fab fa-youtube"></i> Zie een voorbeeld filmpje
+                        </h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                            Wil je zien hoe een professional een game bouwt in Arcade? Bekijk deze tutorial video.
+                        </p>
+                        <a href="https://www.youtube.com/watch?v=spGypadTGmA" target="_blank"
+                            class="inline-block bg-red-600 hover:bg-red-500 text-white py-3 px-6 rounded-xl font-bold transition-all shadow-lg shadow-red-100 dark:shadow-none">
+                            <i class="fas fa-play mr-2"></i> BEKIJK DE VIDEO
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <!-- PNG Cartridge Instruction -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border-2 border-dashed border-slate-200">
+                        <h3 class="font-bold text-xl mb-6 text-indigo-600 flex items-center gap-2">
+                            <i class="fas fa-save"></i> Exporteer als .png cartridge
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                            Een .png cartridge bevat <strong>al je code</strong>. Sla deze op voor je portfolio!
+                        </p>
+                        <ol class="space-y-4 text-slate-600 text-xs">
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="width:20px; height:20px; font-size:10px;">1</span>
+                                <span>Klik op de <span class="ui-btn-hint"
+                                        style="background-color: #3b82f6;">Download</span> knop of het diskette-icoon
+                                    linksonder.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="step-number" style="width:20px; height:20px; font-size:10px;">2</span>
+                                <span>Er wordt nu een afbeelding gedownload die werkt als een echte
+                                    spel-cartridge.</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Delen en Opslaan -->
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="font-bold text-xl mb-6 text-amber-600 flex items-center gap-2">
+                            <i class="fas fa-share-alt"></i> Je Project Delen
+                        </h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                            Wil je een werkende link voor je Buddy of docent?
+                        </p>
+                        <ul class="space-y-3 text-xs text-slate-600 dark:text-slate-400">
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-dot-circle text-amber-500"></i>
+                                <span>1. Klik op de grote <span class="ui-btn-hint"
+                                        style="background-color: #f59e0b;">Share</span> knop linksboven.</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-dot-circle text-amber-500"></i>
+                                <span>2. Geef je game een naam en klik op <span class="ui-btn-hint"
+                                        style="background-color: #f59e0b;">Publish project</span>.</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-dot-circle text-amber-500"></i>
+                                <span>3. Kopieer de link. Dit is de link die je inlevert!</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 1 -->
+            <div id="week1" class="lesson-card active">
+                <div class="mb-12">
+                    <span class="mission-badge">Level 1</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">De Fundering: Introductie & Pizza</h2>
+                    <p class="text-lg text-slate-600 mb-6">Welkom in de studio! Vandaag transformeren we van leerling
+                        naar Junior Developer. We beginnen met een korte opwarmer over storytelling en gaan daarna onze
+                        eerste game bouwen.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Planning / Roadmap -->
+                    <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3
+                            class="font-bold text-xl mb-8 flex items-center gap-2 text-violet-600 uppercase tracking-tight">
+                            <i class="fas fa-history"></i> De Planning (100 min)
+                        </h3>
+                        <div class="relative ml-4 border-l-2 border-slate-100 pb-4">
+                            <!-- Step 1 -->
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Introductie & Editor Tour</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Uitleg van de simulator, toolbox en workspace.</p>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #ec4899;"></span>
+                                <div class="flex justify-between items-start mb-2 text-pink-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Opwarmer: Greeting Card</h4>
+                                    <span class="bg-pink-100 text-pink-600 text-[10px] px-2 py-0.5 rounded font-bold">15
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500 mb-4 text-slate-700">Leer werken met tutorial kaarten
+                                    en maak een korte animatie.</p>
+                                <a href="https://arcade.makecode.com/--skillmap#beginner" target="_blank"
+                                    class="btn-secondary-tutorial text-xs py-2">
+                                    <i class="fas fa-star mr-2"></i> START SKILLMAP
+                                </a>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot"></span>
+                                <div class="flex justify-between items-start mb-2 text-violet-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Basis Game: Chase the Pizza</h4>
+                                    <span
+                                        class="bg-violet-100 text-violet-600 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500 mb-4">Zorg dat de basis werkt: bewegen, vangen en
+                                    scoren.</p>
+                                <a href="https://arcade.makecode.com/#tutorial:/tutorials/chase-the-pizza"
+                                    target="_blank" class="btn-tutorial text-xs py-2">
+                                    <i class="fas fa-play mr-2"></i> START TUTORIAL
+                                </a>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #10b981;"></span>
+                                <div class="flex justify-between items-start mb-2 text-emerald-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Verdieping & Modding</h4>
+                                    <span
+                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">40
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Maak je game uniek met vijanden, geluid en eigen art.
+                                </p>
+                            </div>
+                            <!-- Step 5 -->
+                            <div class="ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #64748b;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-500">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting</h4>
+                                    <span
+                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Project publiceren en link opslaan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-violet-400">
+                            <i class="fas fa-compass"></i> Cheat Sheet
+                        </h3>
+                        <div class="space-y-6 text-xs text-slate-300">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Scherm Grootte</p>
+                                <p>160 pixels breed (X)<br>120 pixels hoog (Y)</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Oorsprong (0,0)</p>
+                                <p class="text-emerald-400">Linksboven op je scherm.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="bg-pink-50 dark:bg-pink-900/20 p-8 rounded-3xl border border-pink-100 dark:border-pink-800/30 shadow-sm h-full cursor-pointer"
+                        id="mission-w1-1" onclick="toggleMissions('mission-w1-1')">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-bold text-xl text-pink-700 dark:text-pink-300">Missie: Greeting Card</h3>
+                            <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-800 flex items-center justify-center text-pink-500"
+                                id="mission-w1-1-check">
+                                <i class="fas fa-1" id="mission-w1-1-icon"></i>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                            <li>Intro cards bekijken (Get to Know).</li>
+                            <li>Maak een pratend karakter (Greeting Card).</li>
+                        </ul>
+                    </div>
+                    <!-- UPDATED MISSION BOX -->
+                    <div class="bg-indigo-600 p-8 rounded-3xl text-white shadow-xl shadow-indigo-100 dark:shadow-indigo-900/20 flex flex-col h-full text-center cursor-pointer hover:bg-indigo-500 transition-all"
+                        id="mission-w1-2" onclick="toggleMissions('mission-w1-2')">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-bold text-xl text-indigo-100 text-left">Missie: Chase the Pizza</h3>
+                            <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-indigo-600"
+                                id="mission-w1-2-check">
+                                <i class="fas fa-2" id="mission-w1-2-icon"></i>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 text-sm text-left mb-8 flex-1 text-indigo-100">
+                            <li>Player Sprite & besturing.</li>
+                            <li>Random Pizza spawn & score.</li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=spGypadTGmA" target="_blank"
+                            class="block bg-white text-indigo-600 py-3 px-6 rounded-xl font-bold text-xs hover:bg-indigo-50 transition-all"
+                            onclick="event.stopPropagation()">
+                            <i class="fab fa-youtube mr-2 text-base"></i> BEKIJK VOORBEELD VIDEO
+                        </a>
+                    </div>
+                </div>
+
+                <!-- WEEK 1 FOOTER -->
+                <div
+                    class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <button onclick="showLesson('arcade-guide')"
+                        class="flex items-center gap-2 text-slate-400 hover:text-violet-500 font-bold transition-colors">
+                        <i class="fas fa-arrow-left"></i> VORIG LEVEL
+                    </button>
+                    <button onclick="showLesson('week2')" class="btn-tutorial">
+                        VOLGEND LEVEL: SPACE SHOOTER <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm mb-12">
+                    <h3 class="font-bold text-xl mb-6 flex items-center gap-2 text-emerald-600">
+                        <i class="fas fa-tools"></i> Modding Challenge: Maak de game UNIEK
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-6 text-xs text-slate-500 leading-relaxed">
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-paint-brush text-violet-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">1. Visueel</h4>
+                            <p>Teken in de Asset Editor je eigen personage en een achtergrond. Vervang de pizza!</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-skull-crossbones text-red-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">2. Extra Gameplay
+                            </h4>
+                            <p>Voeg een vijand toe met een Overlap event: als de vijand je raakt, verlies je punten.</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-volume-up text-pink-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">3. Audio</h4>
+                            <p>Voeg background music toe en een gaaf geluidseffect wanneer je scoort.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OVERIGE WEKEN (WEEK 2 T/M 7) -->
+            <!-- WEEK 2 -->
+            <div id="week2" class="lesson-card">
+                <div class="mb-12">
+                    <span class="mission-badge">Level 2</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">Logica: Space Shooter (Galga)</h2>
+                    <p class="text-lg text-slate-600 mb-6">Tijd om systemen te bouwen! We gaan van een spel dat reageert
+                        op jou naar een wereld die uit zichzelf beweegt. Leer alles over de Game Loop en variabelen.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3
+                            class="font-bold text-xl mb-8 flex items-center gap-2 text-blue-600 uppercase tracking-tight">
+                            <i class="fas fa-history"></i> De Planning (100 min)
+                        </h3>
+                        <div class="relative ml-4 border-l-2 border-slate-100 pb-4">
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #3b82f6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Systems Tour</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Terugblik op week 1 en uitleg over automatisering via
+                                    Game Loops.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #3b82f6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-blue-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Basis Tutorial: Space Shooter</h4>
+                                    <span class="bg-blue-100 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold">40
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500 mb-4">Bouw de kern: ruimteschip, schieten met
+                                    projectielen en vijanden die spawnen.</p>
+                                <a href="https://arcade.makecode.com/#tutorial:/tutorials/galga" target="_blank"
+                                    class="btn-tutorial text-xs py-2 bg-blue-600" style="box-shadow: 0 4px 0 #1e40af;">
+                                    <i class="fas fa-play mr-2"></i> START TUTORIAL
+                                </a>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #10b981;"></span>
+                                <div class="flex justify-between items-start mb-2 text-emerald-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Verdieping & Modding</h4>
+                                    <span
+                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">45
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Maak je Space Shooter uniek met extra logica en
+                                    assets.</p>
+                            </div>
+                            <div class="ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #64748b;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-500">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting</h4>
+                                    <span
+                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Exporteer je project als .png cartridge voor je
+                                    portfolio.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-blue-400">
+                            <i class="fas fa-code"></i> Systeem Logica
+                        </h3>
+                        <div class="space-y-6 text-xs text-slate-300">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">De Game Loop</p>
+                                <p><code>on game update every 1000ms</code>: Code die elke seconde herhaalt.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Snelheid (VY)</p>
+                                <p>Kogels omhoog? Gebruik een <strong>negatieve VY</strong> (bijv. -100). Vijanden
+                                    omlaag? <strong>Positieve VY</strong>.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Variabelen</p>
+                                <p class="italic text-emerald-400">Informatie onthouden zoals score of spawn-snelheid.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-600 p-8 rounded-3xl text-white shadow-xl shadow-blue-100 dark:shadow-blue-900/20 mb-12 cursor-pointer hover:bg-blue-500 transition-all"
+                    id="mission-w2-1" onclick="toggleMissions('mission-w2-1')">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="font-bold text-xl text-blue-100">
+                            <i class="fas fa-fighter-jet mr-2"></i> Missie: Space Shooter Galga
+                        </h3>
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white"
+                            id="mission-w2-1-check">
+                            <i class="fas fa-rocket" id="mission-w2-1-icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 text-sm text-blue-50">
+                        <ul class="space-y-4 text-left">
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">1</span>
+                                <span><strong>Stay in Screen:</strong> Zorg dat je schip niet uit beeld vliegt.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">2</span>
+                                <span><strong>Lokaties:</strong> Gebruik <code>pick random 0 to 160</code> voor
+                                    vijanden.</span>
+                            </li>
+                        </ul>
+                        <ul class="space-y-4 text-left">
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">3</span>
+                                <span><strong>Overlap:</strong> Schrijf code om vijanden te vernietigen met
+                                    kogels.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">4</span>
+                                <span><strong>Juice:</strong> Voeg een particle effect toe bij elke vernietiging.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- WEEK 2 FOOTER -->
+                <div
+                    class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <button onclick="showLesson('week1')"
+                        class="flex items-center gap-2 text-slate-400 hover:text-blue-500 font-bold transition-colors">
+                        <i class="fas fa-arrow-left"></i> VORIG LEVEL
+                    </button>
+                    <button onclick="showLesson('week3')" class="btn-tutorial bg-blue-600 hover:bg-blue-500"
+                        style="box-shadow: 0 4px 0 #1e40af;">
+                        VOLGEND LEVEL: VERHAAL & KEUZES <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm mb-12">
+                    <h3 class="font-bold text-xl mb-6 flex items-center gap-2 text-emerald-600">
+                        <i class="fas fa-tools"></i> Modding Challenge: Space Shooter Expansion
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-6 text-xs text-slate-500 leading-relaxed">
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-star text-violet-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">1. Visueel
+                                (Assets)</h4>
+                            <p>Laat elke leerling hun eigen unieke ruimteschip, vijanden en kogels tekenen in de Asset
+                                Editor. Voeg een starfield-achtergrond toe via <strong>Scene > start screen effect
+                                    [Starfield]</strong>.</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-bolt text-red-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">2. Gameplay
+                                (Logica)</h4>
+                            <ul class="space-y-2 mt-1">
+                                <li>- <strong>Level 2:</strong> Voeg een nieuwe vijand toe die sneller beweegt of meer
+                                    punten waard is.</li>
+                                <li>- <strong>Power-up:</strong> Maak een projectile power-up voor sneller schieten of
+                                    speciaal effect.</li>
+                                <li>- <strong>Score:</strong> Trek punten af als een vijand de onderkant bereikt.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-volume-up text-pink-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">3. Audio Design
+                            </h4>
+                            <p>Gebruik de Song Editor voor achtergrondmuziek in thema. Voeg effecten toe voor het
+                                schieten en wanneer the speler wordt geraakt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 3 - VERHAAL EN KEUZES -->
+            <div id="week3" class="lesson-card">
+                <div class="mb-12">
+                    <span class="mission-badge">Level 3</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">Verhaal & Keuzes: Codeer een Avontuur
+                    </h2>
+                    <p class="text-lg text-slate-600 mb-6">Een game is niks zonder een goed verhaal. Vandaag
+                        transformeer je naar een Verhaalmeester. Leer hoe je interactieve dialogen en meerdere eindes
+                        programmeert.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3
+                            class="font-bold text-xl mb-8 flex items-center gap-2 text-pink-600 uppercase tracking-tight">
+                            <i class="fas fa-history"></i> De Planning (100 min)
+                        </h3>
+                        <div class="relative ml-4 border-l-2 border-slate-100 pb-4">
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #ec4899;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Introductie</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Terugblik op week 2 en uitleg over scenes, dialogen en
+                                    keuzes.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #ec4899;"></span>
+                                <div class="flex justify-between items-start mb-2 text-pink-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Deel 1: Storytelling Basics</h4>
+                                    <span class="bg-pink-100 text-pink-600 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500 mb-4">Leer een achtergrond instellen, personages
+                                    toevoegen en tekst weergeven.</p>
+                                <a href="https://arcade.makecode.com/--skillmap#adventure" target="_blank"
+                                    class="btn-tutorial text-xs py-2 bg-pink-600" style="box-shadow: 0 4px 0 #be185d;">
+                                    <i class="fas fa-play mr-2"></i> START ADVENTURE SKILLMAP
+                                </a>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #ec4899;"></span>
+                                <div class="flex justify-between items-start mb-2 text-pink-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Deel 2: Add Choices</h4>
+                                    <span class="bg-pink-100 text-pink-600 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Programmeer 'knoppen' waarmee de speler keuzes maakt
+                                    die het verhaal beïnvloeden.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #10b981;"></span>
+                                <div class="flex justify-between items-start mb-2 text-emerald-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Verdieping & Modding</h4>
+                                    <span
+                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">25
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Breid je avontuur uit met extra scènes, meer keuzes of
+                                    eigen tekeningen.</p>
+                            </div>
+                            <div class="ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #64748b;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-500">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting</h4>
+                                    <span
+                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Exporteer je project als .png cartridge voor je
+                                    portfolio.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-pink-400">
+                            <i class="fas fa-brain"></i> Adventure Logica
+                        </h3>
+                        <div class="space-y-6 text-xs text-slate-300">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Conditionals (Als-Dan)</p>
+                                <p>Gebruik <code>if-then</code> om de uitkomst te bepalen op basis van de gemaakte
+                                    keuze.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Events</p>
+                                <p>Reageer op gebeurtenissen zoals een knopdruk van de speler.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Functies</p>
+                                <p class="italic text-emerald-400">Informatie onthouden zoals score of spawn-snelheid.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-pink-600 p-8 rounded-3xl text-white shadow-xl shadow-pink-100 dark:shadow-pink-900/20 mb-12 cursor-pointer hover:bg-pink-500 transition-all"
+                    id="mission-w3-1" onclick="toggleMissions('mission-w3-1')">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="font-bold text-xl text-pink-100">
+                            <i class="fas fa-map-marked-alt mr-2"></i> Missie: Codeer een Avontuur
+                        </h3>
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white"
+                            id="mission-w3-1-check">
+                            <i class="fas fa-rocket" id="mission-w3-1-icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 text-sm text-pink-50">
+                        <ul class="space-y-4 text-left">
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">1</span>
+                                <span><strong>Storytelling:</strong> Maak kennis met scènes en personages.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">2</span>
+                                <span><strong>Add Choices:</strong> Laat de speler het pad bepalen.</span>
+                            </li>
+                        </ul>
+                        <ul class="space-y-4 text-left">
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">3</span>
+                                <span><strong>Personaliseer:</strong> Gebruik eigen beelden en muziek.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">4</span>
+                                <span><strong>Debuggen:</strong> Test alle mogelijke paden van je verhaal.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- WEEK 3 FOOTER -->
+                <div
+                    class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <button onclick="showLesson('week2')"
+                        class="flex items-center gap-2 text-slate-400 hover:text-pink-500 font-bold transition-colors">
+                        <i class="fas fa-arrow-left"></i> VORIG LEVEL
+                    </button>
+                    <button onclick="showLesson('week4')" class="btn-tutorial bg-emerald-600 hover:bg-emerald-500"
+                        style="box-shadow: 0 4px 0 #065f46;">
+                        VOLGEND LEVEL: WERELDEN BOUWEN <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm mb-12">
+                    <h3 class="font-bold text-xl mb-6 flex items-center gap-2 text-emerald-600">
+                        <i class="fas fa-scroll"></i> Verdieping: Word een Verhaalmeester
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-6 text-xs text-slate-500 leading-relaxed">
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-code-branch text-violet-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">1. Meerdere Eindes
+                            </h4>
+                            <p>Zorg voor minimaal twee verschillende eindes. Gebruik een variabele om keuzes te
+                                onthouden.</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-palette text-red-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">2. Visuele Upgrade
+                            </h4>
+                            <p>Teken eigen sprites en achtergronden voor de belangrijkste scènes in je avontuur.</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-music text-pink-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">3. Sfeer en Geluid
+                            </h4>
+                            <p>Voeg achtergrondmuziek of geluidseffecten toe wanneer de speler een keuze maakt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 4 - WERELDEN BOUWEN -->
+            <div id="week4" class="lesson-card">
+                <div class="mb-12">
+                    <span class="mission-badge">Level 4</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">Werelden Bouwen: Platformer of Maze
+                    </h2>
+                    <p class="text-lg text-slate-600 mb-6">Vandaag is de ultieme test voor jouw eigen game-genres. Kies
+                        je voor de precisie van een Platformer (Mario-stijl) of voor de navigatie van een Maze game
+                        (Pac-Man stijl)? Of red je het ze allebei te maken?</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Planning -->
+                    <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3
+                            class="font-bold text-xl mb-8 flex items-center gap-2 text-emerald-600 uppercase tracking-tight">
+                            <i class="fas fa-history"></i> De Planning (100 min)
+                        </h3>
+                        <div class="relative ml-4 border-l-2 border-slate-100 pb-4">
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #10b981;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Video Introductie</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Bekijk de voorbeelden en kies je genre.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #10b981;"></span>
+                                <div class="flex justify-between items-start mb-2 text-emerald-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Kies je Pad: Skillmap Start</h4>
+                                    <span
+                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">50
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500 mb-4">Start met de Turkey Platformer of de Rockstar
+                                    Maze.</p>
+                                <div class="flex flex-wrap gap-4">
+                                    <a href="https://arcade.makecode.com/--skillmap#turkey" target="_blank"
+                                        class="btn-tutorial text-xs py-2 bg-emerald-600"
+                                        style="box-shadow: 0 4px 0 #065f46;">
+                                        <i class="fas fa-running mr-2"></i> TURKEY PLATFORMER
+                                    </a>
+                                    <a href="https://arcade.makecode.com/--skillmap#rockstar" target="_blank"
+                                        class="btn-secondary-tutorial text-xs py-2 bg-orange-500"
+                                        style="box-shadow: 0 4px 0 #9a3412;">
+                                        <i class="fas fa-star mr-2"></i> ROCKSTAR MAZE
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #10b981;"></span>
+                                <div class="flex justify-between items-start mb-2 text-emerald-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Verdieping & Modding</h4>
+                                    <span
+                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">35
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Voeg geluid, sprites en unieke regels toe, of probeer
+                                    nu de andere skillmap te maken!</p>
+                            </div>
+                            <div class="ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #64748b;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-500">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting</h4>
+                                    <span
+                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Project publiceren. Je hebt nu genoeg bagage voor je
+                                    eigen game!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-emerald-400">
+                            <i class="fas fa-globe"></i> Wereld Regels
+                        </h3>
+                        <div class="space-y-6 text-xs text-slate-300">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Platformer Physics</p>
+                                <p><code>set mijnHero ay to 300</code>: Zwaartekracht trekt je omlaag.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Maze Muren</p>
+                                <p>Gebruik de <strong>rode Wall overlay</strong> in de Tilemap voor vaste muren.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Camera</p>
+                                <p><code>camera follow sprite</code>: Zorg dat de wereld met je mee schuift.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12 text-white text-center">
+                    <div class="bg-violet-800 p-8 rounded-3xl shadow-xl">
+                        <h3 class="font-bold text-xl mb-2">Platformer Voorbeeld</h3>
+                        <p class="text-sm text-violet-200 mb-6 italic">Super Mario stijl</p>
+                        <a href="https://www.youtube.com/watch?v=wmGbQazskvo" target="_blank"
+                            class="inline-block bg-white text-violet-800 py-3 px-6 rounded-xl font-bold">
+                            <i class="fab fa-youtube mr-2"></i> BEKIJK VIDEO
+                        </a>
+                    </div>
+                    <div class="bg-orange-800 p-8 rounded-3xl shadow-xl">
+                        <h3 class="font-bold text-xl mb-2">Maze Voorbeeld</h3>
+                        <p class="text-sm text-orange-200 mb-6 italic">Pac-Man stijl</p>
+                        <a href="https://www.youtube.com/watch?v=FqSzh7XpT8U" target="_blank"
+                            class="inline-block bg-white text-orange-800 py-3 px-6 rounded-xl font-bold">
+                            <i class="fab fa-youtube mr-2"></i> BEKIJK VIDEO
+                        </a>
+                    </div>
+                </div>
+
+                <!-- WEEK 4 FOOTER -->
+                <div
+                    class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <button onclick="showLesson('week3')"
+                        class="flex items-center gap-2 text-slate-400 hover:text-emerald-500 font-bold transition-colors">
+                        <i class="fas fa-arrow-left"></i> VORIG LEVEL
+                    </button>
+                    <button onclick="showLesson('week5')"
+                        class="btn-tutorial bg-violet-600 hover:bg-violet-500 font-bold"
+                        style="box-shadow: 0 4px 0 #6d28d9;">
+                        VOLGEND LEVEL: DE BLAUWDRUK <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- WEEK 5 - THE BIG PROJECT: DE BLAUWDRUK -->
+            <div id="week5" class="lesson-card">
+                <div class="mb-12">
+                    <span class="mission-badge">Design Jam</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">De Blauwdruk & Eerste Assets</h2>
+                    <p class="text-lg text-slate-600 mb-6">Vandaag start je grootste uitdaging: je eigen game vanaf nul.
+                        We focussen op het concept en het fundament. Onthoud: je werkt individueel aan je eigen
+                        portfolio, maar je buurman is je 'Lead Tester'.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3
+                            class="font-bold text-xl mb-8 flex items-center gap-2 text-violet-600 uppercase tracking-tight">
+                            <i class="fas fa-history"></i> De Planning (100 min)
+                        </h3>
+                        <div class="relative ml-4 border-l-2 border-slate-100 pb-4">
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #8b5cf6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">MVP & Genre Keuze</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Bepaal je genre en gebruik de MoSCoW-methode voor je
+                                    Minimum Viable Product.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #8b5cf6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Design & Regels</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Schets je level op papier en schrijf the kernregels
+                                    van je spel uit.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #8b5cf6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Start Arcade & Assets</h4>
+                                    <span
+                                        class="bg-violet-100 text-violet-600 text-[10px] px-2 py-0.5 rounded font-bold">50
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Open een nieuw project en teken je held en vijanden in
+                                    de Asset Editor.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-emerald-400">
+                            <i class="fas fa-users"></i> Buddy Systeem
+                        </h3>
+                        <div class="space-y-6 text-xs text-slate-300">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Individueel Bouwen</p>
+                                <p>Je bouwt je eigen game voor je portfolio. Jij bent de eigenaar van de code.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Lead Testers</p>
+                                <p>Je buurman is je Buddy. Hij test jouw game, zoekt bugs en geeft eerlijke feedback.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-violet-600 p-8 rounded-3xl text-white shadow-xl shadow-violet-100 mb-12">
+                    <h3 class="font-bold text-xl mb-4 text-violet-100">
+                        <i class="fas fa-tasks mr-2"></i> Missie: De 3 Opdrachten
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-8 text-sm">
+                        <div class="bg-violet-700/30 p-4 rounded-xl border border-violet-400/30">
+                            <h4 class="font-bold mb-2">1. MVP Bepalen</h4>
+                            <p>Kies je genre (Shooter, Maze, Platformer, Adventure, etc) en bepaal wat er écht in moet
+                                om het speelbaar te maken.</p>
+                        </div>
+                        <div class="bg-violet-700/30 p-4 rounded-xl border border-violet-400/30">
+                            <h4 class="font-bold mb-2">2. Design Schets</h4>
+                            <p>Teken op papier hoe je eerste level eruit ziet en welke obstakels er zijn.</p>
+                        </div>
+                        <div class="bg-violet-700/30 p-4 rounded-xl border border-violet-400/30">
+                            <h4 class="font-bold mb-2">3. Setup Arcade</h4>
+                            <p>Programmeer je Player Sprite en de basisbesturing. Maak je eerste vijand-asset.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MoSCoW Section -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm mb-12">
+                    <h3 class="font-bold text-xl mb-6 flex items-center gap-2 text-emerald-600">
+                        <i class="fas fa-scroll"></i> Verdieping: Gebruik van de MoSCoW-methode
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-6 text-xs text-slate-500 leading-relaxed">
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-check-circle text-violet-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">1. Must Have
+                                (Basis)</h4>
+                            <p class="mb-3">Wat moet er écht in? Zonder dit werkt de game niet. Focus eerst op deze
+                                kern:</p>
+                            <ul class="space-y-1 font-semibold text-slate-600">
+                                <li class="flex items-center gap-2"><i class="fas fa-caret-right text-violet-400"></i>
+                                    Beweging van de speler en vijanden</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-caret-right text-violet-400"></i>
+                                    Manier om te winnen/verliezen</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-caret-right text-violet-400"></i>
+                                    Basis graphics & level design</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-plus-circle text-red-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">2. Should & Could
+                                (Extra)</h4>
+                            <p class="mb-3">Belangrijke functies die je graag wilt, of leuke extra's voor als er tijd
+                                over is:</p>
+                            <ul class="space-y-1 font-semibold text-slate-600">
+                                <li class="flex items-center gap-2"><i class="fas fa-caret-right text-red-400"></i>
+                                    Meerdere levels</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-caret-right text-red-400"></i>
+                                    Power-ups & Boss fights</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-caret-right text-red-400"></i>
+                                    Eigen soundtrack & animaties</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-times-circle text-pink-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">3. Won't Have
+                                (Focus)</h4>
+                            <p>Wees streng! Bewaar te complexe ideeën (zoals online multiplayer) voor later. Door
+                                functies bewust weg te laten, voorkom je frustratie en houd je je game haalbaar binnen
+                                de tijd.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WEEK 5 FOOTER -->
+                <div
+                    class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <button onclick="showLesson('week4')"
+                        class="flex items-center gap-2 text-slate-400 hover:text-violet-500 font-bold transition-colors">
+                        <i class="fas fa-arrow-left"></i> VORIG LEVEL
+                    </button>
+                    <button onclick="showLesson('week6')" class="btn-tutorial bg-blue-600 hover:bg-blue-500 font-bold"
+                        style="box-shadow: 0 4px 0 #1e40af;">
+                        VOLGEND LEVEL: DE BOUWFASE <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- WEEK 6 - THE BIG PROJECT: ONTWIKKELING -->
+            <div id="week6" class="lesson-card">
+                <div class="mb-12">
+                    <span class="mission-badge">Coding Jam</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">De Bouwfase</h2>
+                    <p class="text-lg text-slate-600 mb-6">Geen gepraat, maar actie! Vandaag duiken we diep in de
+                        logica. Bouw de systemen die je game laten leven.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3
+                            class="font-bold text-xl mb-8 flex items-center gap-2 text-blue-600 uppercase tracking-tight">
+                            <i class="fas fa-history"></i> De Planning (100 min)
+                        </h3>
+                        <div class="relative ml-4 border-l-2 border-slate-100 pb-4">
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #3b82f6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Dagstart & Technische Check</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Wat is de grootste technische uitdaging voor vandaag?
+                                    Bespreek het met je Buddy.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #3b82f6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-blue-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Hardcore Coding</h4>
+                                    <span class="bg-blue-100 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold">70
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Focus op: win/verlies condities, vijandelijk gedrag en
+                                    meerdere levels.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #3b82f6;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Peer Review Alpha</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Je Buddy test de basis. Werkt de besturing intuïtief?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-blue-400">
+                            <i class="fas fa-cogs"></i> Focus Vandaag
+                        </h3>
+                        <div class="space-y-6 text-xs text-slate-300">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Core Logic</p>
+                                <p>Zorg dat de score klopt en de levens verminderen bij botsingen.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Level Flow</p>
+                                <p>Wat gebeurt er als een level uitgespeeld is? Hoe start level 2?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revised Feedback Checklist -->
+                <div
+                    class="bg-orange-50 dark:bg-orange-900/10 p-8 rounded-3xl border border-orange-200 dark:border-orange-800/30">
+                    <h3 class="font-bold text-orange-900 dark:text-orange-300 mb-4">Feedback Checklist (Alpha Test)</h3>
+                    <p class="text-xs text-orange-800 dark:text-orange-400 mb-4 italic">Laat je Buddy je game testen en
+                        deze punten controleren:</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm font-medium">
+                        <li class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-orange-100 dark:border-orange-800/30 flex items-start gap-2 text-xs cursor-pointer hover:border-orange-300 transition-all"
+                            onclick="toggleFeedback(this)">
+                            <i class="fas fa-check-square mt-1 text-orange-400"></i>
+                            <span class="text-slate-700 dark:text-slate-300"><strong>1. Eerste Indruk:</strong> Is het
+                                doel meteen duidelijk zonder uitleg? Hoe voelt de besturing
+                                (traag/goed/gevoelig)?</span>
+                        </li>
+                        <li class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-orange-100 dark:border-orange-800/30 flex items-start gap-2 text-xs cursor-pointer hover:border-orange-300 transition-all"
+                            onclick="toggleFeedback(this)">
+                            <i class="fas fa-check-square mt-1 text-orange-400"></i>
+                            <span class="text-slate-700 dark:text-slate-300"><strong>2. Techniek:</strong> Zoek naar
+                                bugs in Collision (botsingen), Boundaries (uit beeld lopen) en de Score-telling.</span>
+                        </li>
+                        <li class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-orange-100 dark:border-orange-800/30 flex items-start gap-2 text-xs cursor-pointer hover:border-orange-300 transition-all"
+                            onclick="toggleFeedback(this)">
+                            <i class="fas fa-check-square mt-1 text-orange-400"></i>
+                            <span class="text-slate-700 dark:text-slate-300"><strong>3. MoSCoW Check:</strong> Zijn alle
+                                Must Haves (de basisregels) nu af? Welke 'Should Have' moet nu als eerste?</span>
+                        </li>
+                        <li class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-orange-100 dark:border-orange-800/30 flex items-start gap-2 text-xs cursor-pointer hover:border-orange-300 transition-all"
+                            onclick="toggleFeedback(this)">
+                            <i class="fas fa-check-square mt-1 text-orange-400"></i>
+                            <span class="text-slate-700 dark:text-slate-300"><strong>4. Top & Tip:</strong> Wat is het
+                                vetste aan deze game? Wat moet er voor de Expo echt nog veranderen?</span>
+                        </li>
+                    </ul>
+                    <div class="mt-8 flex justify-center">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXsjTTpaQPENNBebGw2hl9eDebL1eG7g87t2exuBHXWNZYWQ/viewform?usp=sharing&ouid=100667630149628942375"
+                            target="_blank"
+                            class="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-orange-500 transition-all shadow-lg shadow-orange-200 dark:shadow-none">
+                            <i class="fas fa-external-link-alt"></i> OPEN FEEDBACK FORMULIER (BUDDY TEST)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- WEEK 6 FOOTER -->
+                <div
+                    class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <button onclick="showLesson('week5')"
+                        class="flex items-center gap-2 text-slate-400 hover:text-blue-500 font-bold transition-colors">
+                        <i class="fas fa-arrow-left"></i> VORIG LEVEL
+                    </button>
+                    <button onclick="showLesson('week7')" class="btn-tutorial bg-pink-600 hover:bg-pink-500 font-bold"
+                        style="box-shadow: 0 4px 0 #be185d;">
+                        VOLGEND LEVEL: LAUNCH DAY! <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- WEEK 7 - THE BIG PROJECT: LAUNCH DAY -->
+            <div id="week7" class="lesson-card">
+                <div class="mb-12">
+                    <span class="mission-badge">Final Boss</span>
+                    <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">Launch Day!</h2>
+                    <p class="text-lg text-slate-600 mb-6">De finale. We poetsen de games op, jagen op de laatste bugs
+                        en vieren de resultaten in de Arcade Expo.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                    <!-- Planning -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 h-full">
+                        <h3
+                            class="font-bold text-xl mb-8 flex items-center gap-2 text-pink-600 uppercase tracking-tight">
+                            <i class="fas fa-history"></i> De Planning (100 min)
+                        </h3>
+                        <div class="relative ml-4 border-l-2 border-slate-100 pb-4">
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #ec4899;"></span>
+                                <div class="flex justify-between items-start mb-2 text-pink-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Polish & Juice</h4>
+                                    <span class="bg-pink-100 text-pink-600 text-[10px] px-2 py-0.5 rounded font-bold">40
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Voeg muziek, particle effects en camera shakes toe om
+                                    je game professioneel te maken.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #ec4899;"></span>
+                                <div class="flex justify-between items-start mb-2 text-slate-800">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Final Bug Hunt</h4>
+                                    <span
+                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Loop je eigen bug-log na en fix de laatste foutjes
+                                    samen met je Buddy.</p>
+                            </div>
+                            <div class="mb-10 ml-8 relative pl-6">
+                                <span class="timeline-dot" style="border-color: #10b981;"></span>
+                                <div class="flex justify-between items-start mb-2 text-emerald-600">
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Arcade Expo</h4>
+                                    <span
+                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">40
+                                        MIN</span>
+                                </div>
+                                <p class="text-sm text-slate-500">De klas wordt een speelhal. Speel elkaars games en
+                                    beoordeel de beste projecten!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The Juice - Fixed Width & Word Break -->
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white h-full flex flex-col" id="juice-card">
+                        <h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-pink-400">
+                            <i class="fas fa-star"></i> De "Juice"
+                        </h3>
+                        <div class="space-y-6 text-xs text-slate-300 flex-1">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 overflow-hidden">
+                                <p class="font-bold uppercase text-slate-400 mb-3">Schermeffecten</p>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-2">
+                                        <code
+                                            class="flex-1 block text-[9px] text-emerald-400 leading-relaxed bg-black/30 p-2 rounded break-all">scene.cameraShake(4, 500)</code>
+                                        <button onclick="triggerShake('juice-card')"
+                                            class="bg-pink-600 hover:bg-pink-500 text-white px-2 py-1 rounded text-[8px] font-bold transition-colors whitespace-nowrap">
+                                            TRY IT!
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <code
+                                            class="flex-1 block text-[9px] text-emerald-400 leading-relaxed bg-black/30 p-2 rounded break-all">effects.confetti.startScreenEffect()</code>
+                                        <button onclick="triggerConfetti()"
+                                            class="bg-pink-600 hover:bg-pink-500 text-white px-2 py-1 rounded text-[8px] font-bold transition-colors whitespace-nowrap">
+                                            TRY IT!
+                                        </button>
+                                    </div>
+                                    <code
+                                        class="block text-[9px] text-emerald-400 leading-relaxed bg-black/30 p-2 rounded break-all">effects.fire.startScreenEffect()</code>
+                                </div>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 overflow-hidden">
+                                <p class="font-bold uppercase text-slate-400 mb-3">Muziek</p>
+                                <code
+                                    class="block text-[9px] text-emerald-400 leading-relaxed bg-black/30 p-2 rounded break-all">music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.LoopingInBackground)</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 mb-12">
+                    <h3 class="font-bold text-xl mb-4 text-emerald-600">
+                        <i class="fas fa-trophy mr-2"></i> Arcade Expo & HFLikes
+                    </h3>
+                    <p class="text-sm mb-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Alle werkende games zullen op de arcadekast worden gezet voor de officiële <strong>HFLikes
+                            afsluiting</strong>!
+                    </p>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 mb-8">
+                        <p
+                            class="text-xs font-bold mb-3 uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                            Spel inleveren voor
+                            Arcadekast:</p>
+                        <p class="text-[11px] mb-4 text-slate-500 dark:text-slate-400">Lever je game in als <strong>.png
+                                cartridge</strong> (zie de <button onclick="showLesson('arcade-guide')"
+                                class="underline font-bold hover:text-emerald-600 transition-colors">Arcade
+                                Gids</button> voor
+                            instructies) zodat deze op de arcadekast kan worden gezet!</p>
+                        <a href="#" target="_blank"
+                            class="inline-block bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold text-xs shadow-lg hover:bg-emerald-500 transition-all">
+                            <i class="fas fa-file-upload mr-2"></i> LEVER HIER JE CARTRIDGE IN (LINK VOLGT)
+                        </a>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6 text-sm text-center">
+                        <div
+                            class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <i class="fas fa-lightbulb mb-2 text-amber-500"></i>
+                            <p class="font-bold text-slate-700 dark:text-slate-300">Originaliteit</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <i class="fas fa-paint-brush mb-2 text-pink-500"></i>
+                            <p class="font-bold text-slate-700 dark:text-slate-300">Graphics</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <i class="fas fa-gamepad mb-2 text-blue-500"></i>
+                            <p class="font-bold text-slate-700 dark:text-slate-300">Gameplay</p>
+                        </div>
+                    </div>
+                    <!-- WEEK 7 FOOTER -->
+                    <div class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800">
+                        <button onclick="showLesson('week6')"
+                            class="flex items-center gap-2 text-slate-400 hover:text-pink-500 font-bold transition-colors">
+                            <i class="fas fa-arrow-left"></i> VORIG LEVEL: DE BOUWFASE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Final Motivator SVG -->
+                <div class="text-center mt-16 mb-8">
+                    <div
+                        class="inline-block p-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-emerald-500 rounded-3xl">
+                        <div class="bg-white px-12 py-10 rounded-[22px] flex flex-col items-center">
+                            <h3 class="arcade-font text-violet-600 text-xl mb-6 uppercase tracking-widest">Game Over?
+                            </h3>
+                            <div class="mb-8">
+                                <svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="50" y="20" width="100" height="80" fill="#1e293b" rx="5" />
+                                    <rect x="60" y="30" width="80" height="50" fill="#0ea5e9" opacity="0.3" />
+                                    <path d="M70 45 L90 55 L70 65 Z" fill="#0ea5e9" />
+                                    <circle cx="80" cy="105" r="5" fill="#ef4444" />
+                                    <circle cx="120" cy="105" r="5" fill="#ef4444" />
+                                    <rect x="95" y="102" width="10" height="6" fill="#fbbf24" />
+                                    <text x="100" y="15" text-anchor="middle" font-family="'Press Start 2P'"
+                                        font-size="8" fill="#8b5cf6">LEVEL COMPLETE</text>
+                                    <path d="M150 10 L160 30 L140 30 Z" fill="#ec4899" transform="rotate(15 150 20)" />
+                                </svg>
+                            </div>
+                            <p class="text-slate-700 font-extrabold text-2xl mb-4 italic">Nee, dit is pas het begin!</p>
+                            <p class="text-slate-500 text-sm max-w-sm mx-auto font-medium">Je hebt zojuist je eigen
+                                werelden gebouwd van pure logica en creativiteit. De studio is trots op je. Blijf
+                                bouwen, blijf leren!</p>
+                            <div class="mt-8 arcade-font text-[10px] text-emerald-500 animate-pulse">CREATING WORLDS...
+                                100%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function showLesson(lessonId, saveToHistory = true) {
+            const cards = document.querySelectorAll('.lesson-card');
+            cards.forEach(c => c.classList.remove('active'));
+
+            const target = document.getElementById(lessonId);
+            if (target) {
+                target.classList.add('active');
+                if (saveToHistory) {
+                    window.location.hash = lessonId;
+                    localStorage.setItem('arcade_portal_last_lesson', lessonId);
+                }
+
+                // Special effect for Week 7
+                if (lessonId === 'week7') triggerConfetti();
+            }
+
+            const links = document.querySelectorAll('.sidebar-link');
+            links.forEach(l => l.classList.remove('active'));
+            const activeBtn = Array.from(links).find(l => l.getAttribute('onclick').includes(lessonId));
+            if (activeBtn) activeBtn.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('arcade_portal_theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        function triggerConfetti() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#8b5cf6', '#ec4899', '#06b6d4']
+            });
+        }
+
+        function triggerShake(elId) {
+            const el = document.getElementById(elId);
+            if (el) {
+                el.classList.add('shake-animation');
+                setTimeout(() => el.classList.remove('shake-animation'), 500);
+            }
+        }
+
+        function toggleMissions(missionId) {
+            const completedMissions = JSON.parse(localStorage.getItem('arcade_portal_missions') || '{}');
+            completedMissions[missionId] = !completedMissions[missionId];
+            localStorage.setItem('arcade_portal_missions', JSON.stringify(completedMissions));
+            updateMissionUI(missionId, completedMissions[missionId]);
+        }
+
+        function updateMissionUI(id, isDone) {
+            const check = document.getElementById(id + '-check');
+            const icon = document.getElementById(id + '-icon');
+            if (isDone) {
+                check.style.background = '#10b981';
+                check.style.color = 'white';
+                icon.className = 'fas fa-check';
+            } else {
+                const isIndigo = check.parentElement.parentElement.classList.contains('bg-indigo-600') ||
+                    check.classList.contains('bg-white');
+                check.style.background = isIndigo ? 'white' : '';
+                check.style.color = isIndigo ? '#4f46e5' : '';
+
+                // Return to original icon
+                const stepNum = id.slice(-1);
+                icon.className = isNaN(stepNum) ? 'fas fa-rocket' : 'fas fa-' + stepNum;
+            }
+        }
+
+        function toggleFeedback(el) {
+            const isDone = el.classList.toggle('bg-orange-100');
+            el.classList.toggle('border-orange-100');
+            el.classList.toggle('border-orange-300');
+            const icon = el.querySelector('i');
+            icon.className = isDone ? 'fas fa-check-square mt-1 text-orange-600' : 'fas fa-check-square mt-1 text-orange-400';
+
+            const feedbackState = JSON.parse(localStorage.getItem('arcade_portal_feedback') || '[]');
+            const text = el.innerText.trim();
+            if (isDone) {
+                feedbackState.push(text);
+            } else {
+                const index = feedbackState.indexOf(text);
+                if (index > -1) feedbackState.splice(index, 1);
+            }
+            localStorage.setItem('arcade_portal_feedback', JSON.stringify(feedbackState));
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Theme init
+            const savedTheme = localStorage.getItem('arcade_portal_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                updateThemeIcon(true);
+            }
+
+            // Lesson init
+            const hash = window.location.hash.substring(1);
+            const savedLesson = localStorage.getItem('arcade_portal_last_lesson') || 'arcade-guide';
+
+            if (hash && document.getElementById(hash)) {
+                showLesson(hash, false);
+            } else if (savedLesson && document.getElementById(savedLesson)) {
+                showLesson(savedLesson, false);
+            } else {
+                showLesson('arcade-guide', false);
+            }
+        });
+    </script>
+</body>
+
+</html>
