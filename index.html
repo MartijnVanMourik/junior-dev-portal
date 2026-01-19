@@ -836,11 +836,33 @@
                         <div class="space-y-6 text-xs text-slate-300">
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
                                 <p class="font-bold uppercase text-slate-400 mb-1">Scherm Grootte</p>
-                                <p>160 pixels breed (X)<br>120 pixels hoog (Y)</p>
+                                <p class="text-violet-400 mb-1"><code>160 x 120 pixels</code></p>
+                                <p>Breed: 160 (X) | Hoog: 120 (Y)</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
                                 <p class="font-bold uppercase text-slate-400 mb-1">Oorsprong (0,0)</p>
-                                <p>Linksboven op je scherm.</p>
+                                <p class="text-violet-400 mb-1"><code>Linksboven op scherm</code></p>
+                                <p>Hier begint de telling bij (0,0).</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Richtingen (X,Y)</p>
+                                <p class="text-violet-400 mb-1"><code>Een kant op bewegen</code></p>
+                                <p>→ (X+) | ← (X-) | ↓ (Y+) | ↑ (Y-)</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Sprites</p>
+                                <p class="text-violet-400 mb-1"><code>set mijnHeld to sprite...</code></p>
+                                <p>Alles in je game is een Sprite!</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Besturing</p>
+                                <p class="text-violet-400 mb-1"><code>move mijnHeld with buttons</code></p>
+                                <p>Directe besturing met pijltjes.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Interactie</p>
+                                <p class="text-violet-400 mb-1"><code>on sprite overlaps other</code></p>
+                                <p>Hét blokje om punten te scoren.</p>
                             </div>
                         </div>
                     </div>
@@ -1017,17 +1039,29 @@
                         </h3>
                         <div class="space-y-6 text-xs text-slate-300">
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">De Game Loop</p>
-                                <p><code>on game update every 1000ms</code>: Code die elke seconde herhaalt.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Game Loop</p>
+                                <p class="text-blue-400 mb-1"><code>on game update every 1000ms</code></p>
+                                <p>Code die elke seconde herhaalt.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Projectielen</p>
+                                <p class="text-blue-400 mb-1"><code>set projectile to...</code></p>
+                                <p>Kogels die vanzelf vliegen.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
                                 <p class="font-bold uppercase text-slate-400 mb-1">Snelheid (VY)</p>
-                                <p>Kogels omhoog? Gebruik een <strong>negatieve VY</strong> (bijv. -100). Vijanden
-                                    omlaag? <strong>Positieve VY</strong>.</p>
+                                <p class="text-blue-400 mb-1"><code>set mijnHeld vy to -100</code></p>
+                                <p>Negatief = Omhoog | Positief = Omlaag.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Variabelen</p>
-                                <p>Informatie onthouden zoals score of spawn-snelheid.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Willekeur</p>
+                                <p class="text-blue-400 mb-1"><code>pick random 0 to 160</code></p>
+                                <p>Spawnen op verschillende plekken.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Levens</p>
+                                <p class="text-blue-400 mb-1"><code>info.changeLifeBy(-1)</code></p>
+                                <p>Voor het hartjes-systeem.</p>
                             </div>
                         </div>
                     </div>
@@ -1207,17 +1241,29 @@
                         </h3>
                         <div class="space-y-6 text-xs text-slate-300">
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Conditionals (Als-Dan)</p>
-                                <p>Gebruik <code>if-then</code> om de uitkomst te bepalen op basis van de gemaakte
-                                    keuze.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Als-Dan (Logic)</p>
+                                <p class="text-pink-400 mb-1"><code>if [keuze = 1] then...</code></p>
+                                <p>Bepaal de uitkomst van het verhaal.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Tekst & Dialogen</p>
+                                <p class="text-pink-400 mb-1"><code>game.showLongText</code></p>
+                                <p>Praat met personages via ballonnen.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
                                 <p class="font-bold uppercase text-slate-400 mb-1">Events</p>
-                                <p>Reageer op gebeurtenissen zoals een knopdruk van de speler.</p>
+                                <p class="text-pink-400 mb-1"><code>on [A] button pressed</code></p>
+                                <p>Reageer op acties van de speler.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Functies</p>
-                                <p>Bundel codeblokken die je vaker wilt gebruiken onder één naam.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Locaties</p>
+                                <p class="text-pink-400 mb-1"><code>set background image</code></p>
+                                <p>Wisselen van achtergrond per scène.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Vragen</p>
+                                <p class="text-pink-400 mb-1"><code>game.askForString</code></p>
+                                <p>Laat de speler een keuze typen.</p>
                             </div>
                         </div>
                     </div>
@@ -1386,16 +1432,25 @@
                         </h3>
                         <div class="space-y-6 text-xs text-slate-300">
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Platformer Physics</p>
-                                <p><code>set mijnHero ay to 300</code>: Zwaartekracht trekt je omlaag.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Physics & Camera</p>
+                                <p class="text-emerald-400 mb-1"><code>ay 300</code> | <code>camera follow</code></p>
+                                <p>Zwaartekracht en volgcamerra.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Maze Muren</p>
-                                <p>Gebruik de <strong>rode Wall overlay</strong> in de Tilemap voor vaste muren.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Tilemaps & Muren</p>
+                                <p class="text-emerald-400 mb-1"><code>set tilemap</code> | <code>Wall overlay</code>
+                                </p>
+                                <p>Bouw je wereld met vaste muren.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Camera</p>
-                                <p><code>camera follow sprite</code>: Zorg dat de wereld met je mee schuift.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Winnen</p>
+                                <p class="text-emerald-400 mb-1"><code>on sprite overlaps [Finish]</code></p>
+                                <p>Eindig je level succesvol.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Sprong (Platformer)</p>
+                                <p class="text-emerald-400 mb-1"><code>if A pressed -> Vy -150</code></p>
+                                <p>De code om je held te laten springen.</p>
                             </div>
                         </div>
                     </div>
