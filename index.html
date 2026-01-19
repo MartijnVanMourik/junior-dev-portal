@@ -1800,7 +1800,7 @@
                     <span class="mission-badge">Final Boss</span>
                     <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">Launch Day!</h2>
                     <p class="text-lg text-slate-600 mb-6">De finale. We poetsen de games op, jagen op de laatste bugs
-                        en vieren de resultaten in de Arcade Expo.</p>
+                        en vieren de resultaten bij de Arcade Expo.</p>
                 </div>
 
                 <div class="grid lg:grid-cols-2 gap-8 mb-12">
@@ -1824,13 +1824,13 @@
                             <div class="mb-10 ml-8 relative pl-6">
                                 <span class="timeline-dot" style="border-color: #64748b;"></span>
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
-                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Final Bug Hunt</h4>
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Export & Cartridge</h4>
                                     <span
                                         class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">20
                                         MIN</span>
                                 </div>
-                                <p class="text-sm text-slate-500">Loop je eigen bug-log na en fix de laatste foutjes
-                                    samen met je Buddy.</p>
+                                <p class="text-sm text-slate-500">Sla je game op als .png cartridge en lever deze in bij
+                                    de docent voor de Arcadekast.</p>
                             </div>
                             <div class="mb-10 ml-8 relative pl-6">
                                 <span class="timeline-dot" style="border-color: #10b981;"></span>
@@ -1841,7 +1841,7 @@
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">De klas wordt een speelhal. Speel elkaars games en
-                                    beoordeel de beste projecten!</p>
+                                    deel je stem uit!</p>
                             </div>
                         </div>
                     </div>
@@ -1852,35 +1852,38 @@
                             <i class="fas fa-star"></i> De "Juice"
                         </h3>
                         <div class="space-y-6 text-xs text-slate-300 flex-1">
-                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 overflow-hidden">
-                                <p class="font-bold uppercase text-slate-400 mb-3">Schermeffecten</p>
-                                <div class="space-y-3">
-                                    <div class="flex items-center gap-2">
-                                        <code
-                                            class="flex-1 block text-[9px] text-red-400 leading-relaxed bg-black/30 p-2 rounded break-all">scene.cameraShake(4, 500)</code>
-                                        <button onclick="triggerShake('juice-card')"
-                                            class="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-[8px] font-bold transition-colors whitespace-nowrap"
-                                            style="box-shadow: 0 2px 0 #991b1b;">
-                                            TRY IT!
-                                        </button>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <code
-                                            class="flex-1 block text-[9px] text-red-400 leading-relaxed bg-black/30 p-2 rounded break-all">effects.confetti.startScreenEffect()</code>
-                                        <button onclick="triggerConfetti()"
-                                            class="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-[8px] font-bold transition-colors whitespace-nowrap"
-                                            style="box-shadow: 0 2px 0 #991b1b;">
-                                            TRY IT!
-                                        </button>
-                                    </div>
-                                    <code
-                                        class="block text-[9px] text-red-400 leading-relaxed bg-black/30 p-2 rounded break-all">effects.fire.startScreenEffect()</code>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Scherm Shake</p>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <code class="flex-1 text-red-400">scene.cameraShake(4, 500)</code>
+                                    <button onclick="triggerShake('juice-card')"
+                                        class="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-[8px] font-bold shadow-[0_2px_0_#991b1b]">TRY
+                                        IT!</button>
                                 </div>
+                                <p>Maak trillingen bij actie of explosies.</p>
                             </div>
-                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 overflow-hidden">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Muziek</p>
-                                <code
-                                    class="block text-[9px] text-red-400 leading-relaxed bg-black/30 p-2 rounded break-all">music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.LoopingInBackground)</code>
+
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Confetti Effect</p>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <code class="flex-1 text-red-400">effects.confetti.start()</code>
+                                    <button onclick="triggerConfetti()"
+                                        class="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-[8px] font-bold shadow-[0_2px_0_#991b1b]">TRY
+                                        IT!</button>
+                                </div>
+                                <p>Vier een overwinning of level-up.</p>
+                            </div>
+
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Achtergrondmuziek</p>
+                                <code class="text-red-400 block mb-1">music.play(music.powerUp, ...)</code>
+                                <p>Creëer de juiste sfeer voor je genre.</p>
+                            </div>
+
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Cartridge</p>
+                                <p class="text-red-400 mb-1"><code>Opslaan -> PNG Image</code></p>
+                                <p>Maak de .png cartridge voor de Arcadekast.</p>
                             </div>
                         </div>
                     </div>
@@ -1914,16 +1917,15 @@
                         </a>
                     </div>
                     <div class="grid md:grid-cols-3 gap-6 text-sm text-center">
-                        <div
-                            class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl">
                             <i class="fas fa-lightbulb mb-2 text-emerald-500"></i>
                             <p class="font-bold text-slate-700 dark:text-slate-300">Originaliteit</p>
                         </div>
-                        <div class="bg-white/10 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl">
                             <i class="fas fa-paint-brush mb-2 text-emerald-500"></i>
                             <p class="font-bold text-slate-700 dark:text-slate-300">Graphics</p>
                         </div>
-                        <div class="bg-white/10 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                        <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl">
                             <i class="fas fa-gamepad mb-2 text-emerald-500"></i>
                             <p class="font-bold text-slate-700 dark:text-slate-300">Gameplay</p>
                         </div>
@@ -1953,9 +1955,9 @@
                             </div>
                             <p class="text-slate-700 font-extrabold text-2xl mb-4 italic">Nee, dit is pas het begin!
                             </p>
-                            <p class="text-slate-500 text-sm max-w-sm mx-auto font-medium">Je hebt zojuist je eigen
-                                werelden gebouwd van pure logica en creativiteit. De studio is trots op je. Blijf
-                                bouwen, blijf leren!</p>
+                            <p class="text-slate-500 text-sm max-w-sm mx-auto font-medium">Jouw ideeën, jouw code, jouw
+                                wereld. Je bent nu een echte game developer en we zijn trots op wat je hebt neergezet.
+                                Blijf bouwen, blijf ontdekken, blijf leren!</p>
                             <div class="mt-8 arcade-font text-[10px] text-emerald-500 animate-pulse">CREATING
                                 WORLDS...
                                 100%</div>
