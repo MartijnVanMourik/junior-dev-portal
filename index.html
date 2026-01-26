@@ -198,6 +198,25 @@
             background: #db2777;
         }
 
+        /* Micro-interactions */
+        @keyframes checkPop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .check-pop {
+            animation: checkPop 0.3s ease-out;
+        }
+
         .timeline-dot {
             position: absolute;
             left: -10px;
@@ -770,7 +789,7 @@
                                         <input type="checkbox"
                                             class="plan-check w-3 h-3 rounded border-slate-300 text-slate-600 focus:ring-slate-500"
                                             data-plan-id="w1-step1-1">
-                                        <span>Website (desgewenst) op Nederlands zetten</span>
+                                        <span>Website op Nederlands zetten (optioneel)</span>
                                     </label>
                                     <label
                                         class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-slate-700 transition-colors">
@@ -2469,9 +2488,25 @@
                     localStorage.setItem('arcade_portal_plan_state', JSON.stringify(savedState));
 
                     if (check.checked) {
-                        check.parentElement.classList.add('opacity-50', 'line-through');
-                        // Optional: trigger a small confetti burst locally? 
-                        // confetti({ particleCount: 20, spread: 30, origin: { x: 0.5, y: 0.5 } });
+                        const parent = check.parentElement;
+                        parent.classList.add('opacity-50', 'line-through', 'check-pop');
+
+                        // Fire confetti from checkbox position
+                        const rect = check.getBoundingClientRect();
+                        const x = (rect.left + rect.width / 2) / window.innerWidth;
+                        const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+                        confetti({
+                            particleCount: 15,
+                            spread: 40,
+                            origin: { x, y },
+                            colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'],
+                            gravity: 0.8,
+                            scalar: 0.7,
+                            drift: 0
+                        });
+
+                        setTimeout(() => parent.classList.remove('check-pop'), 300);
                     } else {
                         check.parentElement.classList.remove('opacity-50', 'line-through');
                     }
