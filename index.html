@@ -135,9 +135,11 @@
             color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
-            font-size: 0.7rem;
+            font-size: 0.55rem;
             font-weight: bold;
             text-transform: uppercase;
+            font-family: 'Press Start 2P', cursive;
+            letter-spacing: -0.5px;
         }
 
         .step-number {
@@ -145,57 +147,58 @@
             height: 24px;
             background: #8b5cf6;
             color: white;
-            border-radius: 50%;
+            border-radius: 4px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
+            font-size: 0.6rem;
             font-weight: bold;
             margin-right: 14px;
             flex-shrink: 0;
+            font-family: 'Press Start 2P', cursive;
         }
 
         .btn-tutorial {
             display: inline-flex;
             align-items: center;
-            background: #8b5cf6;
+            background: var(--btn-bg, #8b5cf6);
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 1rem;
             font-weight: bold;
             font-size: 0.875rem;
             transition: all 0.2s;
-            box-shadow: 0 4px 0 #6d28d9;
+            box-shadow: 0 4px 0 var(--btn-shadow, #6d28d9);
         }
 
         .btn-tutorial:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 0 #6d28d9;
-            background: #7c3aed;
+            box-shadow: 0 6px 0 var(--btn-shadow, #6d28d9);
+            background: var(--btn-hover, #7c3aed);
         }
 
         .btn-tutorial:active {
             transform: translateY(2px);
-            box-shadow: 0 0 0 #6d28d9;
+            box-shadow: 0 0 0 var(--btn-shadow, #6d28d9);
         }
 
         .btn-secondary-tutorial {
             display: inline-flex;
             align-items: center;
-            background: #ec4899;
+            background: var(--btn-bg, #ec4899);
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 1rem;
             font-weight: bold;
             font-size: 0.875rem;
             transition: all 0.2s;
-            box-shadow: 0 4px 0 #be185d;
+            box-shadow: 0 4px 0 var(--btn-shadow, #be185d);
         }
 
         .btn-secondary-tutorial:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 0 #be185d;
-            background: #db2777;
+            box-shadow: 0 6px 0 var(--btn-shadow, #be185d);
+            background: var(--btn-hover, #db2777);
         }
 
         /* Micro-interactions */
@@ -215,6 +218,68 @@
 
         .check-pop {
             animation: checkPop 0.3s ease-out;
+        }
+
+        /* Arcade Aesthetics */
+        @keyframes glowPulse {
+            0% {
+                box-shadow: 0 4px 0 var(--btn-shadow), 0 0 5px rgba(139, 92, 246, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 4px 0 var(--btn-shadow), 0 0 15px rgba(139, 92, 246, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 4px 0 var(--btn-shadow), 0 0 5px rgba(139, 92, 246, 0.2);
+            }
+        }
+
+        .btn-feedback {
+            display: inline-flex;
+            align-items: center;
+            background: var(--btn-bg, #ea580c);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 var(--btn-shadow, #9a3412);
+        }
+
+        .btn-tutorial,
+        .btn-secondary-tutorial,
+        .btn-feedback {
+            animation: glowPulse 3s infinite ease-in-out;
+        }
+
+        .btn-feedback:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--btn-shadow, #9a3412);
+            background: var(--btn-hover, #f97316);
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: repeating-linear-gradient(rgba(18, 16, 16, 0) 0,
+                    rgba(18, 16, 16, 0) 50%,
+                    rgba(0, 0, 0, 0.05) 50%,
+                    rgba(0, 0, 0, 0.05) 100%);
+            background-size: 100% 3px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        .duration-badge {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem !important;
+            letter-spacing: -0.5px;
         }
 
         .timeline-dot {
@@ -243,13 +308,13 @@
 
         /* UI Element Highlight Styles */
         .ui-btn-hint {
-            background-color: #8b5cf6;
+            background-color: var(--primary);
             color: white;
             padding: 2px 8px;
             border-radius: 6px;
             font-weight: 800;
             font-size: 0.75rem;
-            box-shadow: 0 2px 0 #6d28d9;
+            box-shadow: 0 2px 0 var(--btn-shadow, #6d28d9);
             display: inline-block;
             margin: 0 2px;
         }
@@ -285,6 +350,8 @@
 </head>
 
 <body class="text-slate-900">
+    <!-- CRT Overlay for Arcade Vibe -->
+    <div class="crt-overlay"></div>
 
     <div class="flex flex-col lg:flex-row min-h-screen">
 
@@ -778,7 +845,7 @@
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Introductie: Get to Know Arcade
                                     </h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">15
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">15
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Gezamenlijke walkthrough: de simulator, toolbox
@@ -796,11 +863,12 @@
                                         <input type="checkbox"
                                             class="plan-check w-3 h-3 rounded border-slate-300 text-slate-600 focus:ring-slate-500"
                                             data-plan-id="w1-step1-2">
-                                        <span>Toolbox & Simulator verkennen</span>
+                                        <span>Workspace, Toolbox & Simulator verkennen</span>
                                     </label>
                                 </div>
                                 <a href="https://arcade.makecode.com/#tutorial:/tutorials/intro" target="_blank"
-                                    class="btn-tutorial text-xs py-2 bg-slate-600" style="box-shadow: 0 4px 0 #475569;">
+                                    class="btn-tutorial text-xs py-2"
+                                    style="--btn-bg: #475569; --btn-shadow: #334155; --btn-hover: #64748b;">
                                     <i class="fas fa-play mr-2"></i> START GET TO KNOW
                                 </a>
                             </div>
@@ -810,7 +878,7 @@
                                 <div class="flex justify-between items-start mb-2 text-violet-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Opwarmer: Greeting Cards</h4>
                                     <span
-                                        class="bg-violet-100 text-violet-600 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        class="bg-violet-100 text-violet-600 duration-badge px-2 py-0.5 rounded font-bold">20
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4 text-slate-700">Maak een 'Greeting Card' en daarna
@@ -832,8 +900,8 @@
                                     </label>
                                 </div>
                                 <a href="https://arcade.makecode.com/--skillmap#beginner" target="_blank"
-                                    class="btn-tutorial text-xs py-2 bg-violet-600"
-                                    style="box-shadow: 0 4px 0 #6d28d9;">
+                                    class="btn-tutorial text-xs py-2"
+                                    style="--btn-bg: #8b5cf6; --btn-shadow: #6d28d9; --btn-hover: #7c3aed;">
                                     <i class="fas fa-star mr-2"></i> START SKILLMAP
                                 </a>
                             </div>
@@ -843,7 +911,7 @@
                                 <div class="flex justify-between items-start mb-2 text-violet-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Basis Game: Chase the Pizza</h4>
                                     <span
-                                        class="bg-violet-100 text-violet-600 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                        class="bg-violet-100 text-violet-600 duration-badge px-2 py-0.5 rounded font-bold">30
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Zorg dat de basis werkt: bewegen, vangen en
@@ -872,7 +940,8 @@
                                     </label>
                                 </div>
                                 <a href="https://arcade.makecode.com/#tutorial:/tutorials/chase-the-pizza"
-                                    target="_blank" class="btn-tutorial text-xs py-2">
+                                    target="_blank" class="btn-tutorial text-xs py-2"
+                                    style="--btn-bg: #8b5cf6; --btn-shadow: #6d28d9; --btn-hover: #7c3aed;">
                                     <i class="fas fa-play mr-2"></i> START TUTORIAL
                                 </a>
                             </div>
@@ -882,7 +951,7 @@
                                 <div class="flex justify-between items-start mb-2 text-emerald-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Verdieping & Modding</h4>
                                     <span
-                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                        class="bg-emerald-100 text-emerald-600 duration-badge px-2 py-0.5 rounded font-bold">30
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Kies je uitdaging: Joking Around of je Pizza game
@@ -916,7 +985,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-500">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting</h4>
                                     <span
-                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        class="bg-slate-200 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">5
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Lekker bezig! Je hebt je eerste pixels tot leven
@@ -1056,8 +1125,8 @@
 
                 <!-- WEEK 1 FOOTER -->
                 <div class="mt-12 pt-12 border-t border-slate-100 dark:border-slate-800 flex justify-end items-center">
-                    <button onclick="showLesson('week2')" class="btn-tutorial bg-blue-600 hover:bg-blue-500"
-                        style="box-shadow: 0 4px 0 #1e40af;">
+                    <button onclick="showLesson('week2')" class="btn-tutorial"
+                        style="--btn-bg: #2563eb; --btn-shadow: #1e40af; --btn-hover: #3b82f6;">
                         VOLGEND LEVEL: SPACE SHOOTER <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -1086,7 +1155,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Skillmap Intro</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">10
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Recap van Week 1 en uitleg over de eilanden op de
@@ -1112,7 +1181,8 @@
                                 <span class="timeline-dot" style="border-color: #3b82f6;"></span>
                                 <div class="flex justify-between items-start mb-2 text-blue-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Save the Galaxy Skillmap</h4>
-                                    <span class="bg-blue-100 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold">65
+                                    <span
+                                        class="bg-blue-100 text-blue-600 duration-badge px-2 py-0.5 rounded font-bold">65
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Bestuur je schip, vuur lasers af en versla vloten
@@ -1141,7 +1211,8 @@
                                     </label>
                                 </div>
                                 <a href="https://arcade.makecode.com/--skillmap#galaxy" target="_blank"
-                                    class="btn-tutorial text-xs py-2 bg-blue-600" style="box-shadow: 0 4px 0 #1e40af;">
+                                    class="btn-tutorial text-xs py-2"
+                                    style="--btn-bg: #2563eb; --btn-shadow: #1e40af; --btn-hover: #3b82f6;">
                                     <i class="fas fa-play mr-2"></i> START SKILLMAP
                                 </a>
                             </div>
@@ -1150,7 +1221,7 @@
                                 <div class="flex justify-between items-start mb-2 text-emerald-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Modding & Boss Challenge</h4>
                                     <span
-                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        class="bg-emerald-100 text-emerald-600 duration-badge px-2 py-0.5 rounded font-bold">20
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Teken je eigen schip, maak de game sneller of
@@ -1198,7 +1269,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-500">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting & Certificaat</h4>
                                     <span
-                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        class="bg-slate-200 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">5
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Upload je certificaat in de ELO als bewijs dat je
@@ -1381,8 +1452,8 @@
                         class="flex items-center gap-2 text-slate-400 hover:text-violet-500 font-bold transition-colors">
                         <i class="fas fa-arrow-left"></i> VORIG LEVEL
                     </button>
-                    <button onclick="showLesson('week3')" class="btn-tutorial bg-pink-600 hover:bg-pink-500"
-                        style="box-shadow: 0 4px 0 #be185d;">
+                    <button onclick="showLesson('week3')" class="btn-tutorial"
+                        style="--btn-bg: #db2777; --btn-shadow: #9d174d; --btn-hover: #be185d;">
                         VOLGEND LEVEL: VERHAAL & KEUZES <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -1411,7 +1482,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Skillmap Intro</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">10
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Terugblik op week 2 en uitleg over scenes,
@@ -1438,7 +1509,8 @@
                                 <span class="timeline-dot" style="border-color: #ec4899;"></span>
                                 <div class="flex justify-between items-start mb-2 text-pink-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Deel 1: Start Your Journey</h4>
-                                    <span class="bg-pink-100 text-pink-600 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                    <span
+                                        class="bg-pink-100 text-pink-600 duration-badge px-2 py-0.5 rounded font-bold">30
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Leer een achtergrond instellen, personages
@@ -1453,7 +1525,8 @@
                                     </label>
                                 </div>
                                 <a href="https://arcade.makecode.com/--skillmap#adventure" target="_blank"
-                                    class="btn-tutorial text-xs py-2 bg-pink-600" style="box-shadow: 0 4px 0 #be185d;">
+                                    class="btn-tutorial text-xs py-2"
+                                    style="--btn-bg: #db2777; --btn-shadow: #9d174d; --btn-hover: #be185d;">
                                     <i class="fas fa-play mr-2"></i> START ADVENTURE SKILLMAP
                                 </a>
                             </div>
@@ -1461,7 +1534,8 @@
                                 <span class="timeline-dot" style="border-color: #ec4899;"></span>
                                 <div class="flex justify-between items-start mb-2 text-pink-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Deel 2: Make it Spectacular!</h4>
-                                    <span class="bg-pink-100 text-pink-600 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                    <span
+                                        class="bg-pink-100 text-pink-600 duration-badge px-2 py-0.5 rounded font-bold">30
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Voeg muziek, eigen afbeeldingen en functies toe
@@ -1488,7 +1562,7 @@
                                 <div class="flex justify-between items-start mb-2 text-emerald-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Verdieping & Modding</h4>
                                     <span
-                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">25
+                                        class="bg-emerald-100 text-emerald-600 duration-badge px-2 py-0.5 rounded font-bold">25
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Breid je avontuur uit met extra scènes, meer
@@ -1530,7 +1604,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-500">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting & Certificaat</h4>
                                     <span
-                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        class="bg-slate-200 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">5
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Upload je certificaat in de ELO als bewijs dat je
@@ -1692,8 +1766,8 @@
                         class="flex items-center gap-2 text-slate-400 hover:text-blue-500 font-bold transition-colors">
                         <i class="fas fa-arrow-left"></i> VORIG LEVEL
                     </button>
-                    <button onclick="showLesson('week4')" class="btn-tutorial bg-emerald-600 hover:bg-emerald-500"
-                        style="box-shadow: 0 4px 0 #065f46;">
+                    <button onclick="showLesson('week4')" class="btn-tutorial"
+                        style="--btn-bg: #059669; --btn-shadow: #065f46; --btn-hover: #10b981;">
                         VOLGEND LEVEL: WERELDEN BOUWEN <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -1723,7 +1797,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Video Introductie</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">10
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Bekijk de voorbeelden en kies je genre.</p>
@@ -1742,7 +1816,7 @@
                                 <div class="flex justify-between items-start mb-2 text-emerald-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Kies je Pad: Skillmap Start</h4>
                                     <span
-                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">50
+                                        class="bg-emerald-100 text-emerald-600 duration-badge px-2 py-0.5 rounded font-bold">50
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Start met de Turkey Platformer of de Rockstar
@@ -1772,13 +1846,13 @@
                                 </div>
                                 <div class="flex flex-wrap gap-4">
                                     <a href="https://arcade.makecode.com/--skillmap#turkey" target="_blank"
-                                        class="btn-tutorial text-xs py-2 bg-emerald-600"
-                                        style="box-shadow: 0 4px 0 #065f46;">
+                                        class="btn-tutorial text-xs py-2"
+                                        style="--btn-bg: #059669; --btn-shadow: #065f46; --btn-hover: #10b981;">
                                         <i class="fas fa-running mr-2"></i> TURKEY PLATFORMER
                                     </a>
                                     <a href="https://arcade.makecode.com/--skillmap#rockstar" target="_blank"
-                                        class="btn-secondary-tutorial text-xs py-2 bg-orange-500"
-                                        style="box-shadow: 0 4px 0 #9a3412;">
+                                        class="btn-secondary-tutorial text-xs py-2"
+                                        style="--btn-bg: #f97316; --btn-shadow: #9a3412; --btn-hover: #fb923c;">
                                         <i class="fas fa-star mr-2"></i> ROCKSTAR MAZE
                                     </a>
                                 </div>
@@ -1788,7 +1862,7 @@
                                 <div class="flex justify-between items-start mb-2 text-emerald-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Verdieping & Modding</h4>
                                     <span
-                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">35
+                                        class="bg-emerald-100 text-emerald-600 duration-badge px-2 py-0.5 rounded font-bold">35
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Voeg geluid, sprites en unieke regels toe, of
@@ -1809,7 +1883,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-500">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Afsluiting & Certificaat</h4>
                                     <span
-                                        class="bg-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">5
+                                        class="bg-slate-200 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">5
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Upload je certificaat in de ELO als bewijs dat je
@@ -1884,8 +1958,8 @@
                         class="flex items-center gap-2 text-slate-400 hover:text-pink-500 font-bold transition-colors">
                         <i class="fas fa-arrow-left"></i> VORIG LEVEL
                     </button>
-                    <button onclick="showLesson('week5')" class="btn-tutorial bg-amber-600 hover:bg-amber-500 font-bold"
-                        style="box-shadow: 0 4px 0 #d97706;">
+                    <button onclick="showLesson('week5')" class="btn-tutorial font-bold"
+                        style="--btn-bg: #d97706; --btn-shadow: #92400e; --btn-hover: #f59e0b;">
                         VOLGEND LEVEL: DE BLAUWDRUK <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -1913,7 +1987,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">MVP & Genre Keuze</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">20
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Bepaal je genre en gebruik de MoSCoW-methode voor je
@@ -1924,7 +1998,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Design & Regels</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">30
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">30
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Schets je level op papier en schrijf the kernregels
@@ -1935,7 +2009,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-800">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Start Arcade & Assets</h4>
                                     <span
-                                        class="bg-amber-100 text-amber-600 text-[10px] px-2 py-0.5 rounded font-bold">50
+                                        class="bg-amber-100 text-amber-600 duration-badge px-2 py-0.5 rounded font-bold">50
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Open een nieuw project en teken je held en vijanden in
@@ -2051,9 +2125,8 @@
                         class="flex items-center gap-2 text-slate-400 hover:text-emerald-500 font-bold transition-colors">
                         <i class="fas fa-arrow-left"></i> VORIG LEVEL
                     </button>
-                    <button onclick="showLesson('week6')"
-                        class="btn-tutorial bg-indigo-600 hover:bg-indigo-500 font-bold"
-                        style="box-shadow: 0 4px 0 #4f46e5;">
+                    <button onclick="showLesson('week6')" class="btn-tutorial font-bold"
+                        style="--btn-bg: #4f46e5; --btn-shadow: #3730a3; --btn-hover: #6366f1;">
                         VOLGEND LEVEL: DE BOUWFASE <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -2080,7 +2153,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Dagstart & Technische Check</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">10
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">10
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Wat is de grootste technische uitdaging voor vandaag?
@@ -2091,7 +2164,7 @@
                                 <div class="flex justify-between items-start mb-2 text-indigo-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Hardcore Coding</h4>
                                     <span
-                                        class="bg-indigo-100 text-indigo-600 text-[10px] px-2 py-0.5 rounded font-bold">70
+                                        class="bg-indigo-100 text-indigo-600 duration-badge px-2 py-0.5 rounded font-bold">70
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Focus op: win/verlies condities, vijandelijk gedrag en
@@ -2102,7 +2175,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Peer Review Alpha</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">20
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Je Buddy test de basis. Werkt de besturing intuïtief?
@@ -2175,8 +2248,8 @@
                     </ul>
                     <div class="mt-8 flex justify-center">
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXsjTTpaQPENNBebGw2hl9eDebL1eG7g87t2exuBHXWNZYWQ/viewform?usp=sharing&ouid=100667630149628942375"
-                            target="_blank"
-                            class="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-orange-500 transition-all shadow-lg shadow-orange-200 dark:shadow-none">
+                            target="_blank" class="btn-feedback"
+                            style="--btn-bg: #ea580c; --btn-shadow: #9a3412; --btn-hover: #f97316;">
                             <i class="fas fa-external-link-alt"></i> OPEN FEEDBACK FORMULIER (BUDDY TEST)
                         </a>
                     </div>
@@ -2189,8 +2262,8 @@
                         class="flex items-center gap-2 text-slate-400 hover:text-amber-500 font-bold transition-colors">
                         <i class="fas fa-arrow-left"></i> VORIG LEVEL
                     </button>
-                    <button onclick="showLesson('week7')" class="btn-tutorial bg-red-600 hover:bg-red-500 font-bold"
-                        style="box-shadow: 0 4px 0 #991b1b;">
+                    <button onclick="showLesson('week7')" class="btn-tutorial font-bold"
+                        style="--btn-bg: #dc2626; --btn-shadow: #991b1b; --btn-hover: #ef4444;">
                         VOLGEND LEVEL: LAUNCH DAY! <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -2217,7 +2290,8 @@
                                 <span class="timeline-dot" style="border-color: #ef4444;"></span>
                                 <div class="flex justify-between items-start mb-2 text-red-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Polish & Juice</h4>
-                                    <span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold">40
+                                    <span
+                                        class="bg-red-100 text-red-600 duration-badge px-2 py-0.5 rounded font-bold">40
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Voeg muziek, particle effects en camera shakes toe om
@@ -2228,7 +2302,7 @@
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Export & Cartridge</h4>
                                     <span
-                                        class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded font-bold">20
+                                        class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">20
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">Sla je game op als .png cartridge en lever deze in bij
@@ -2239,7 +2313,7 @@
                                 <div class="flex justify-between items-start mb-2 text-emerald-600">
                                     <h4 class="font-bold" style="margin: 2px 0 0 0;">Arcade Expo</h4>
                                     <span
-                                        class="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded font-bold">40
+                                        class="bg-emerald-100 text-emerald-600 duration-badge px-2 py-0.5 rounded font-bold">40
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500">De klas wordt een speelhal. Speel elkaars games en
