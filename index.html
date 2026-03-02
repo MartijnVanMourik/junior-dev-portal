@@ -1819,6 +1819,10 @@
                             class="text-xs font-bold text-slate-400 hover:text-orange-500 flex items-center gap-2 transition-colors">
                             <i class="fas fa-info-circle"></i> DOCENT INFO: ROCKSTAR MAZE
                         </a>
+                        <a href="https://arcade.makecode.com/skillmap/educator-info/jungle-map-info" target="_blank"
+                            class="text-xs font-bold text-slate-400 hover:text-indigo-500 flex items-center gap-2 transition-colors">
+                            <i class="fas fa-info-circle"></i> DOCENT INFO: JUNGLE JUMP
+                        </a>
                     </div>
                 </div>
 
@@ -1833,19 +1837,27 @@
                             <div class="mb-10 ml-8 relative pl-6">
                                 <span class="timeline-dot" style="border-color: #64748b;"></span>
                                 <div class="flex justify-between items-start mb-2 text-slate-600">
-                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Video Introductie</h4>
+                                    <h4 class="font-bold" style="margin: 2px 0 0 0;">Review & Skillmap Intro</h4>
                                     <span
                                         class="bg-slate-100 text-slate-500 duration-badge px-2 py-0.5 rounded font-bold">10
                                         MIN</span>
                                 </div>
-                                <p class="text-sm text-slate-500 mb-4">Bekijk de voorbeelden en kies je genre.</p>
+                                <p class="text-sm text-slate-500 mb-4">Terugblik op week 3 en uitleg over platformers,
+                                    mazes en de keuze van de skillmap.</p>
                                 <div class="space-y-2 mb-4">
                                     <label
                                         class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-slate-700 transition-colors">
                                         <input type="checkbox"
                                             class="plan-check w-3 h-3 rounded border-slate-300 text-slate-600 focus:ring-slate-500"
                                             data-plan-id="w4-step1-1">
-                                        <span>Platformer vs Maze voorbeelden bekeken</span>
+                                        <span>Recap: Verhalen, Keuzes & Scènes</span>
+                                    </label>
+                                    <label
+                                        class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-slate-700 transition-colors">
+                                        <input type="checkbox"
+                                            class="plan-check w-3 h-3 rounded border-slate-300 text-slate-600 focus:ring-slate-500"
+                                            data-plan-id="w4-step1-2">
+                                        <span>Skillmap overview: Turkey, Rockstar & Jungle</span>
                                     </label>
                                 </div>
                             </div>
@@ -1857,41 +1869,105 @@
                                         class="bg-emerald-100 text-emerald-600 duration-badge px-2 py-0.5 rounded font-bold">50
                                         MIN</span>
                                 </div>
-                                <p class="text-sm text-slate-500 mb-4">Start met de Turkey Platformer of de Rockstar
-                                    Maze.</p>
-                                <div class="space-y-2 mb-4">
-                                    <label
-                                        class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-emerald-600 transition-colors">
-                                        <input type="checkbox"
-                                            class="plan-check w-3 h-3 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
-                                            data-plan-id="w4-step2-1">
-                                        <span>Part 1: Setup & Tilemaps voltooid</span>
-                                    </label>
-                                    <label
-                                        class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-emerald-600 transition-colors">
-                                        <input type="checkbox"
-                                            class="plan-check w-3 h-3 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
-                                            data-plan-id="w4-step2-2">
-                                        <span>Part 2: Objectives & Walls voltooid</span>
-                                    </label>
-                                    <label
-                                        class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-emerald-600 transition-colors">
-                                        <input type="checkbox"
-                                            class="plan-check w-3 h-3 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
-                                            data-plan-id="w4-step2-3">
-                                        <span>Part 3: Final Level & Victory!</span>
-                                    </label>
-                                </div>
-                                <div class="flex flex-wrap gap-4">
+                                <p class="text-sm text-slate-500 mb-2">Kies uit <strong>Basic</strong> (Turkey
+                                    Platformer of Rockstar Maze) of <strong>Gevorderd</strong> (Jungle Jump).</p>
+
+                                <div class="mb-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                                        Basic: Turkey Platformer</h5>
+                                    <div class="space-y-2 mb-3">
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-emerald-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                                data-plan-id="w4-step2-turkey-1">
+                                            <span>Island 1: Move the Turkey voltooid</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-emerald-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                                data-plan-id="w4-step2-turkey-2">
+                                            <span>Island 2: Gather a Crowd voltooid</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-emerald-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                                data-plan-id="w4-step2-turkey-3">
+                                            <span>Island 3: Win or Lose voltooid</span>
+                                        </label>
+                                    </div>
                                     <a href="https://arcade.makecode.com/--skillmap#turkey" target="_blank"
-                                        class="btn-tutorial text-xs py-2"
+                                        class="btn-tutorial text-[10px] py-1.5 px-3"
                                         style="--btn-bg: #059669; --btn-shadow: #065f46; --btn-hover: #10b981;">
-                                        <i class="fas fa-running mr-2"></i> TURKEY PLATFORMER
+                                        <i class="fas fa-running mr-1"></i> START TURKEY PLATFORMER
                                     </a>
+                                </div>
+
+                                <div class="mb-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                                        Basic: Rockstar Maze</h5>
+                                    <div class="space-y-2 mb-3">
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-orange-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-slate-300 text-orange-600 focus:ring-orange-500"
+                                                data-plan-id="w4-step2-rockstar-1">
+                                            <span>Island 1: Trapped Backstage voltooid</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-orange-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-slate-300 text-orange-600 focus:ring-orange-500"
+                                                data-plan-id="w4-step2-rockstar-2">
+                                            <span>Island 2: Gather Your Gear voltooid</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-orange-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-slate-300 text-orange-600 focus:ring-orange-500"
+                                                data-plan-id="w4-step2-rockstar-3">
+                                            <span>Island 3: Avoid the Fans! voltooid</span>
+                                        </label>
+                                    </div>
                                     <a href="https://arcade.makecode.com/--skillmap#rockstar" target="_blank"
-                                        class="btn-secondary-tutorial text-xs py-2"
+                                        class="btn-secondary-tutorial text-[10px] py-1.5 px-3"
                                         style="--btn-bg: #f97316; --btn-shadow: #9a3412; --btn-hover: #fb923c;">
-                                        <i class="fas fa-star mr-2"></i> ROCKSTAR MAZE
+                                        <i class="fas fa-star mr-1"></i> START ROCKSTAR MAZE
+                                    </a>
+                                </div>
+
+                                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                                    <h5 class="text-[11px] font-bold text-indigo-500 uppercase tracking-wider mb-2">
+                                        Gevorderd: Jungle Jump Platformer</h5>
+                                    <div class="space-y-2 mb-3">
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
+                                                data-plan-id="w4-step2-jungle-1">
+                                            <span>Sessie 1: Island 1 t/m 3 (Bouncen & Basis) voltooid</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
+                                                data-plan-id="w4-step2-jungle-2">
+                                            <span>Sessie 2: Island 4 t/m 6 (Animaties & Obstakels) voltooid</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors">
+                                            <input type="checkbox"
+                                                class="plan-check w-3 h-3 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
+                                                data-plan-id="w4-step2-jungle-3">
+                                            <span>Sessie 3: Island 7 (Extra Levels) voltooid</span>
+                                        </label>
+                                    </div>
+                                    <a href="https://arcade.makecode.com/--skillmap#jungle" target="_blank"
+                                        class="btn-tutorial text-[10px] py-1.5 px-3"
+                                        style="--btn-bg: #6366f1; --btn-shadow: #4338ca; --btn-hover: #818cf8;">
+                                        <i class="fas fa-tree mr-1"></i> START JUNGLE JUMP
                                     </a>
                                 </div>
                             </div>
@@ -1904,8 +1980,7 @@
                                         MIN</span>
                                 </div>
                                 <p class="text-sm text-slate-500 mb-4">Voeg geluid, sprites en unieke regels toe, of
-                                    probeer
-                                    nu de andere skillmap te maken!</p>
+                                    probeer je eigen twist te geven aan de skillmap!</p>
                                 <div class="space-y-2">
                                     <label
                                         class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-emerald-600 transition-colors">
@@ -1913,6 +1988,13 @@
                                             class="plan-check w-3 h-3 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                                             data-plan-id="w4-step3-1">
                                         <span>Mod: Eigen Tilemaps & Assets</span>
+                                    </label>
+                                    <label
+                                        class="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors">
+                                        <input type="checkbox"
+                                            class="plan-check w-3 h-3 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                            data-plan-id="w4-step3-2">
+                                        <span>Jungle Jump - Island 8: Make it Your Own voltooid</span>
                                     </label>
                                 </div>
                             </div>
@@ -1946,46 +2028,148 @@
                         </h3>
                         <div class="space-y-6 text-xs text-slate-300">
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Tilemaps & Muren</p>
-                                <p class="text-emerald-400 mb-1"><code>set tilemap</code> | <code>Wall overlay</code>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Tilemaps & Navigatie</p>
+                                <p class="text-emerald-400 mb-1"><code>set tilemap</code> |
+                                    <code>place on random tile</code>
                                 </p>
-                                <p>Bouw je wereld met vaste muren.</p>
+                                <p>Bouw je wereld met muren (Maze) en verplaats je held.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
                                 <p class="font-bold uppercase text-slate-400 mb-1">Physics & Camera</p>
                                 <p class="text-emerald-400 mb-1"><code>ay 300</code> | <code>camera follow</code></p>
-                                <p>Zwaartekracht en volgcamerra.</p>
+                                <p>Zwaartekracht (Platformer) en volgcamera.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Sprong (Platformer)</p>
-                                <p class="text-emerald-400 mb-1"><code>if A pressed -> Vy -150</code></p>
-                                <p>De code om je held te laten springen.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Actie & Leven</p>
+                                <p class="text-emerald-400 mb-1"><code>Vy -150</code> | <code>change life by</code></p>
+                                <p>Laat je held springen en houd levens bij.</p>
                             </div>
                             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                <p class="font-bold uppercase text-slate-400 mb-1">Winnen</p>
-                                <p class="text-emerald-400 mb-1"><code>on sprite overlaps [Finish]</code></p>
-                                <p>Eindig je level succesvol.</p>
+                                <p class="font-bold uppercase text-slate-400 mb-1">Animaties & Projectielen</p>
+                                <p class="text-emerald-400 mb-1"><code>run image animation</code> |
+                                    <code>create projectile</code>
+                                </p>
+                                <p>Breng je game tot leven en overwin obstakels.</p>
+                            </div>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                                <p class="font-bold uppercase text-slate-400 mb-1">Winnen & Verliezen</p>
+                                <p class="text-emerald-400 mb-1"><code>on sprite overlaps</code> |
+                                    <code>game over</code>
+                                </p>
+                                <p>Eindig je level succesvol of faal.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-8 mb-12 text-white text-center">
-                    <div class="bg-violet-800 p-8 rounded-3xl shadow-xl">
-                        <h3 class="font-bold text-xl mb-2">Platformer Voorbeeld</h3>
-                        <p class="text-sm text-violet-200 mb-6 italic">Super Mario stijl</p>
-                        <a href="https://www.youtube.com/watch?v=wmGbQazskvo" target="_blank"
-                            class="inline-block bg-white text-violet-800 py-3 px-6 rounded-xl font-bold">
-                            <i class="fab fa-youtube mr-2"></i> BEKIJK VIDEO
-                        </a>
+                <!-- WEEK 4 MISSIE -->
+                <div class="bg-emerald-600 p-8 rounded-3xl text-white shadow-xl shadow-emerald-100 dark:shadow-emerald-900/20 mb-12 cursor-pointer hover:bg-emerald-500 transition-all"
+                    id="mission-w4-1" onclick="toggleMissions('mission-w4-1')">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="font-bold text-xl text-emerald-100">
+                            <i class="fas fa-map-marked-alt mr-2"></i> Missie: Bouw je Wereld
+                        </h3>
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white"
+                            id="mission-w4-1-check">
+                            <i class="fas fa-rocket" id="mission-w4-1-icon"></i>
+                        </div>
                     </div>
-                    <div class="bg-orange-800 p-8 rounded-3xl shadow-xl">
-                        <h3 class="font-bold text-xl mb-2">Maze Voorbeeld</h3>
-                        <p class="text-sm text-orange-200 mb-6 italic">Pac-Man stijl</p>
-                        <a href="https://www.youtube.com/watch?v=FqSzh7XpT8U" target="_blank"
-                            class="inline-block bg-white text-orange-800 py-3 px-6 rounded-xl font-bold">
-                            <i class="fab fa-youtube mr-2"></i> BEKIJK VIDEO
-                        </a>
+                    <div class="grid md:grid-cols-2 gap-8 text-sm text-emerald-50">
+                        <ul class="space-y-4 text-left">
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">1</span>
+                                <span><strong>Wereld Ontwerp:</strong> Bepaal je genre. Teken de muren, platforms of het
+                                    doolhof.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">2</span>
+                                <span><strong>Regels & Doelen:</strong> Programmeer hoe de held beweegt en het spel kan
+                                    winnen.</span>
+                            </li>
+                        </ul>
+                        <ul class="space-y-4 text-left">
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">3</span>
+                                <span><strong>Obstakels & Levens:</strong> Ontwijk gevaren of pak items voor
+                                    punten.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">4</span>
+                                <span><strong>Personaliseer:</strong> Maak je eigen sprites, vijanden en geef je game
+                                    een unieke twist!</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- WEEK 4 VERDIEPING: LEVEL DESIGNER -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm mb-12">
+                    <h3 class="font-bold text-xl mb-6 flex items-center gap-2 text-emerald-600">
+                        <i class="fas fa-scroll"></i> Verdieping: Level Designer
+                    </h3>
+
+                    <!-- Stap 0: Toolbox Unlock -->
+                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 flex items-start gap-4 mb-8">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-emerald-600 flex-shrink-0 flex items-center justify-center text-white shadow-sm">
+                            <i class="fas fa-unlock-alt text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-emerald-800 text-sm mb-1 uppercase tracking-wide">Stap 1: Unlock
+                                de Toolbox</h4>
+                            <p class="text-[11px] text-emerald-700 leading-relaxed font-medium">Klaar met de skillmap?
+                                Klik eerst op <span
+                                    class="bg-emerald-600 text-white px-1.5 py-0.5 rounded font-bold whitespace-nowrap">"SAVE
+                                    TO MY PROJECTS"</span> of <span
+                                    class="bg-emerald-600 text-white px-1.5 py-0.5 rounded font-bold whitespace-nowrap">"MOD
+                                    THIS PROJECT"</span>. Alleen dan kun je de volledige toolbox gebruiken!</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6 text-xs text-slate-500 leading-relaxed mb-8">
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-map text-emerald-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">1. Eigen Tilemap
+                            </h4>
+                            <p>Teken zelf de platforms of het doolhof. Verstop power-ups in de dode hoeken!</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-ghost text-emerald-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">2. Unieke Vijanden
+                            </h4>
+                            <p>Geef je vijanden animaties en laat ze bewegen. Zo wordt je spel veel uitdagender!</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <i class="fas fa-palette text-emerald-500 mb-3 text-xl"></i>
+                            <h4 class="font-bold text-sm mb-2 text-slate-800 uppercase tracking-wide">3. Effecten &
+                                Sfeer</h4>
+                            <p>Voeg trillingen toe bij camera shake en overwinningsmuziek voor extra spanning.</p>
+                        </div>
+                    </div>
+
+                    <!-- Je kunt ook... block for Week 4 -->
+                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
+                        <p class="text-sm font-bold text-emerald-700 mb-4 uppercase tracking-wider">
+                            <i class="fas fa-plus-circle mr-2"></i> Je kunt ook proberen...
+                        </p>
+                        <p class="text-xs text-emerald-800 mb-4 font-medium italic">Gebruik je
+                            skills om de ultieme platformer of maze te maken!</p>
+                        <ul class="grid md:grid-cols-2 gap-4 text-xs text-slate-600 leading-relaxed">
+                            <li class="flex items-start gap-3 bg-white/50 p-3 rounded-xl border border-emerald-50">
+                                <i class="fas fa-layer-group text-emerald-500 mt-1"></i>
+                                <span>Maak <strong>meerdere levels</strong> door naar een nieuwe tilemap te gaan zodra
+                                    je het doel (zoals een deur) bereikt.</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-white/50 p-3 rounded-xl border border-emerald-50">
+                                <i class="fas fa-tachometer-alt text-emerald-500 mt-1"></i>
+                                <span>Voeg een <strong>timer of levens</strong> toe om de uitdaging te verhogen en je
+                                    spelers op het puntje van hun stoel te houden.</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
