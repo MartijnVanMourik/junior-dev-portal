@@ -2643,14 +2643,14 @@
 
             // Lesson init
             const hash = window.location.hash.substring(1);
-            const savedLesson = localStorage.getItem('arcade_portal_last_lesson') || 'arcade-guide';
+            const savedLesson = localStorage.getItem('arcade_portal_last_lesson') || 'overview';
 
             if (hash && document.getElementById(hash)) {
                 showLesson(hash, false);
             } else if (savedLesson && document.getElementById(savedLesson)) {
                 showLesson(savedLesson, false);
             } else {
-                showLesson('arcade-guide', false);
+                showLesson('overview', false);
             }
 
             // Init planning tracker
