@@ -27,7 +27,8 @@
             justify-content: flex-start;
             align-items: center;
             height: 65vh;
-            padding: 0 40vw;
+            padding: 0 calc(50vw - 241px);
+            /* Precies in the midden uitlijnen */
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -212,8 +213,9 @@
                 container.appendChild(card);
             });
 
-            // Schuif de hele container naar links/rechts om de actieve kaart te centreren
-            const offset = currentIndex * -432; // Breedte kaart + margin
+            // Wiskundig perfecte uitlijning (width + padding + border + margin)
+            // 340 + 50 + 12 + 80 = 482px per kaart opschuiven.
+            const offset = currentIndex * -482;
             container.style.transform = `translateX(${offset}px)`;
         }
 
