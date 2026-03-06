@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Arcade Klas Launcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h1 {
+            margin-top: 50px;
+            color: #00ff00;
+            font-size: 22px;
+            text-align: center;
+            text-shadow: 4px 4px #800080;
+        }
+
+        #carousel {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 65vh;
+            padding: 0 40vw;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .game-card {
+            min-width: 340px;
+            width: 340px;
+            height: 380px;
+            /* Vaste hoogte voorkomt springen van elementen */
+            padding: 25px;
+            border: 6px solid #333;
+            background: #111;
+            margin: 0 40px;
+            transition: all 0.3s;
+            opacity: 0.2;
+            transform: scale(0.7);
+            text-align: center;
+        }
+
+        .game-card.selected {
+            border-color: #00ff00;
+            transform: scale(1.1);
+            opacity: 1;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.6);
+        }
+
+        .thumb {
+            width: 340px;
+            height: 255px;
+            /* Altijd de MakeCode verhouding aanhouden */
+            object-fit: cover;
+            border: 4px solid #222;
+            margin-bottom: 25px;
+            image-rendering: pixelated;
+        }
+
+        .title {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .author {
+            font-size: 10px;
+            color: #00ffff;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            color: #777;
+            letter-spacing: 1px;
+        }
+
+        #game-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 1000;
+        }
+
+        #game-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        #exit-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            /* Zorg dat de knop altijd bóven de game (z-index 1000) ligt */
+            padding: 10px 15px;
+            background: #ff0000;
+            color: white;
+            border: 4px solid white;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #exit-btn:hover {
+            background: #ff5555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>KIES EEN GAME</h1>
+    <div id="carousel"></div>
+    <div class="footer">JOYSTICK = KIEZEN | START = SPELEN</div>
+    <div id="game-container"></div>
+    <div id="exit-btn">X SLUITEN</div>
+
+    <script>
+        let games = [];
+        let currentIndex = 0;
+        let isPlaying = false;
+
+        const container = document.getElementById('carousel');
+        const gameContainer = document.getElementById('game-container');
+        const exitBtn = document.getElementById('exit-btn');
+
+        function exitGame() {
+            if (isPlaying) {
+                gameContainer.style.display = 'none';
+                gameContainer.innerHTML = ''; // iframe afbreken = geheugen leegmaken
+                exitBtn.style.display = 'none';
+                isPlaying = false;
+            }
+        }
+
+        // Simpele klik op de zichtbare knop
+        exitBtn.addEventListener('click', exitGame);
+
+        // Constante controle voor USB Gamepads (zoals Arcade joysticks)
+        // Hiermee omzeilen we het feit dat iframes normale toetsaanslagen (zoals ESC) opslokken.
+        function pollGamepads() {
+            if (isPlaying) {
+                const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+                for (let gp of gamepads) {
+                    if (gp && gp.buttons) {
+                        // De meeste USB arcade encoders gebruiken specifieke buttons voor SELECT (Coin) en START
+                        // Bijvoorbeeld Button 8 = Select, Button 9 = Start.
+                        // Je kunt deze nummers aanpassen als jouw arcadekast dat vereist.
+                        // Hier triggeren we exit als bijvoorbeeld button 8 of 9 (P1 Start/Insert Coin) wordt ingedrukt, 
+                        // OF als er een 'Home' button (vaak button 12 of hoger) aanwezig is.
+                        // Een bekende veilige combinatie is vaak de Select Knop (button 8).
+                        const btnSelect = gp.buttons[8]?.pressed;
+                        const btnStart = gp.buttons[9]?.pressed;
+
+                        // We checken of Select + Start samen ingedrukt worden, OF je kunt 1 knop hard-coden.
+                        // Voor het gemak nu: Als knop 8 wordt ingedrukt, exit game.
+                        if (btnSelect || (gp.buttons[6]?.pressed /* L2 */) || (gp.buttons[16]?.pressed /* Xbox Guide */)) {
+                            exitGame();
+                            break;
+                        }
+                    }
+                }
+            }
+            requestAnimationFrame(pollGamepads); // Blijf 60x per seconde kijken of de knop is ingedrukt
+        }
+        pollGamepads();
+
+        async function init() {
+            try {
+                const response = await fetch('assets/games.json?t=' + Date.now());
+                games = await response.json();
+
+                if (games.length > 0) {
+                    render();
+                } else {
+                    container.innerHTML = "<h2>GEEN GAMES IN LIJST</h2>";
+                }
+            } catch (e) { document.body.innerHTML = "<h1>FOUT: assets/games.json niet gevonden</h1>"; }
+        }
+
+        function render() {
+            container.innerHTML = '';
+
+            games.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = `game-card ${index === currentIndex ? 'selected' : ''}`;
+                card.id = `card-${index}`;
+                const thumb = `https://makecode.com/api/${game.shareId}/thumb`;
+
+                card.innerHTML = `
+                    <img class="thumb" src="${thumb}" onerror="this.src='assets/backup.jpg'">
+                    <div class="title">${game.name.toUpperCase()}</div>
+                    <div class="author">${game.author.toUpperCase()}</div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Schuif de hele container naar links/rechts om de actieve kaart te centreren
+            const offset = currentIndex * -432; // Breedte kaart + margin
+            container.style.transform = `translateX(${offset}px)`;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (isPlaying) {
+                // Werkt alleen als we buiten het iframe ergens op de pagina hebben geklikt met een muis:
+                if (e.key === 'Escape' || e.key === 'q' || e.key === 'Q') {
+                    exitGame();
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowRight' && currentIndex < games.length - 1) {
+                currentIndex++;
+                render();
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                currentIndex--;
+                render();
+            } else if (e.key === 'Enter') {
+                isPlaying = true;
+
+                // We and gebruik maken van ---run met de juiste fullscreen flags
+                const game = games[currentIndex];
+                const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
+
+                gameContainer.innerHTML = `<iframe src="${gameUrl}" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" allow="gamepad; autoplay" allowfullscreen tabindex="-1"></iframe>`;
+                gameContainer.style.display = 'block';
+                exitBtn.style.display = 'block';
+
+                setTimeout(() => {
+                    const iframe = gameContainer.querySelector('iframe');
+                    if (iframe && iframe.contentWindow) {
+                        iframe.focus(); // Focus the iframe element
+                        iframe.contentWindow.focus(); // Instruct the inner window to take focus
+                    }
+                }, 100);
+            }
+        });
+
+        init();
+    </script>
+</body>
+
+</html>
