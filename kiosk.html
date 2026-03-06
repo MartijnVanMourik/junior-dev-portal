@@ -12,21 +12,86 @@
             font-family: 'Press Start 2P', cursive;
             overflow: hidden;
             margin: 0;
+            position: relative;
+            /* Voor pseudo-element */
         }
 
-        h1 {
-            margin-top: 50px;
-            color: #00ff00;
-            font-size: 22px;
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('assets/maze.png') no-repeat center center;
+            background-size: 100% 100%;
+            /* Stretcht precies mee met het scherm */
+            opacity: 0.1;
+            /* Iets beter te zien voor je test, pas aan naar wens */
+            z-index: 1;
+            /* Zorg dat je niet per ongeluk op de achtergrond klikt */
+            pointer-events: none;
+            image-rendering: pixelated;
+            /* Arcade feel! */
+        }
+
+        .arcade-marquee {
+            background: linear-gradient(to bottom, #111, #000);
+            border-bottom: 4px solid #333;
+            padding: 20px 0;
             text-align: center;
-            text-shadow: 4px 4px #800080;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 1);
+        }
+
+        .arcade-marquee h1 {
+            margin: 0;
+            color: #00ff00;
+            font-size: 28px;
+            text-shadow: 0 0 10px #00ff00, 4px 4px 0px #005500;
+            letter-spacing: 2px;
+        }
+
+        .sprite {
+            height: 60px;
+            /* Sprites iets groter */
+            image-rendering: pixelated;
+            /* Voor de retro look bij het uitschalen */
+        }
+
+        .instructions-joystick {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            font-size: 10px;
+            color: #777;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            /* Beetje ruimte tussen de twee teksten */
+        }
+
+        .instructions-kies {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #00ffff;
+            font-size: 18px;
+            text-shadow: 0 0 5px #00ffff, 2px 2px #008888;
         }
 
         #carousel {
+            position: relative;
+            z-index: 10;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             height: 65vh;
+            margin: 25px 0;
             padding: 0 calc(50vw - 241px);
             /* Precies in the midden uitlijnen */
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -76,15 +141,7 @@
             color: #00ffff;
         }
 
-        .footer {
-            position: absolute;
-            bottom: 40px;
-            width: 100%;
-            text-align: center;
-            font-size: 10px;
-            color: #777;
-            letter-spacing: 1px;
-        }
+
 
         #game-container {
             display: none;
@@ -127,9 +184,14 @@
 
 <body>
 
-    <h1>KIES EEN GAME</h1>
+    <div class="arcade-marquee">
+        <img class="sprite" src="assets/pacman.png" alt="Pac-Man">
+        <h1>JUNIOR DEV GAME PORTAL</h1>
+        <img class="sprite" src="assets/blinky.png" alt="Ghost">
+    </div>
     <div id="carousel"></div>
-    <div class="footer">JOYSTICK = KIEZEN | START = SPELEN</div>
+    <div class="instructions-joystick">JOYSTICK = KIEZEN | START = SPELEN</div>
+    <div class="instructions-kies">KIES EEN GAME</div>
     <div id="game-container"></div>
     <div id="exit-btn">X SLUITEN</div>
 

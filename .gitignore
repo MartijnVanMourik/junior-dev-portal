@@ -1,1 +1,27 @@
-/.DS_Store
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Developer / Editor / IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Node modules (mocht je later tooling toevoegen)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Overige tijdelijke bestanden
+*.log
+tmp/
+temp/
