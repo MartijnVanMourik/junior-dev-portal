@@ -179,6 +179,48 @@
         #exit-btn:hover {
             background: #ff5555;
         }
+
+        #secret-menu {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #111;
+            border: 4px solid #00ff00;
+            padding: 30px;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 0 30px #00ff00;
+        }
+
+        #secret-menu h2 {
+            color: #fff;
+            margin-top: 0;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        .year-btn {
+            display: block;
+            width: 100%;
+            background: #222;
+            color: #00ffff;
+            border: 2px solid #008888;
+            padding: 15px;
+            margin-bottom: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .year-btn:hover,
+        .year-btn.selected {
+            background: #008888;
+            color: #111;
+            transform: scale(1.05);
+            /* Lichte arcade-pop als hij geselecteerd is */
+        }
     </style>
 </head>
 
@@ -195,10 +237,25 @@
     <div id="game-container"></div>
     <div id="exit-btn">X SLUITEN</div>
 
+    <div id="secret-menu">
+        <h2>KIES JAARGANG</h2>
+        <div id="year-buttons"></div>
+    </div>
+
     <script>
         let games = [];
         let currentIndex = 0;
         let isPlaying = false;
+
+        // Geheime Menu Tracking
+        let availableYears = [];
+        let currentYear = '';
+        let enterPresses = 0;
+        let lastEnterTime = 0;
+
+        let isSecretMenuOpen = false;
+        let secretMenuIndex = 0;
+        let secretMenuOptions = [];
 
         const container = document.getElementById('carousel');
         const gameContainer = document.getElementById('game-container');
@@ -247,15 +304,71 @@
 
         async function init() {
             try {
-                const response = await fetch('assets/games.json?t=' + Date.now());
+                const indexRes = await fetch('datasources/index.json?t=' + Date.now());
+                const indexData = await indexRes.json();
+
+                availableYears = indexData.years;
+                currentYear = indexData.latest;
+
+                buildSecretMenu();
+                if (currentYear) {
+                    loadYear(currentYear);
+                } else {
+                    container.innerHTML = "<h2>GEEN JAARGANGEN GEVONDEN</h2>";
+                }
+            } catch (e) { document.body.innerHTML = "<h1>FOUT: datasources/index.json niet gevonden</h1>"; }
+        }
+
+        function buildSecretMenu() {
+            secretMenuOptions = [];
+            availableYears.forEach(year => {
+                secretMenuOptions.push({ label: `JAARGANG ${year}`, action: () => loadYear(year) });
+            });
+            secretMenuOptions.push({ label: 'ALLE SPELLEN (OPEN AVOND)', action: () => loadYear('all') });
+            secretMenuOptions.push({
+                label: 'X SLUITEN', action: () => {
+                    document.getElementById('secret-menu').style.display = 'none';
+                    isSecretMenuOpen = false;
+                }
+            });
+            renderSecretMenu();
+        }
+
+        function renderSecretMenu() {
+            const btnContainer = document.getElementById('year-buttons');
+            btnContainer.innerHTML = '';
+
+            secretMenuOptions.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = `year-btn ${index === secretMenuIndex ? 'selected' : ''}`;
+                btn.innerText = opt.label;
+
+                if (opt.label === 'X SLUITEN') {
+                    btn.style.borderColor = 'red';
+                    // Alleen de tekst rood maken als hij niet geselecteerd is
+                    if (index !== secretMenuIndex) btn.style.color = 'red';
+                }
+
+                btn.onclick = opt.action;
+                btnContainer.appendChild(btn);
+            });
+        }
+
+        async function loadYear(year) {
+            try {
+                currentYear = year;
+                const response = await fetch(`datasources/${year}/games.json?t=` + Date.now());
                 games = await response.json();
 
+                currentIndex = 0; // Reset
                 if (games.length > 0) {
                     render();
                 } else {
                     container.innerHTML = "<h2>GEEN GAMES IN LIJST</h2>";
                 }
-            } catch (e) { document.body.innerHTML = "<h1>FOUT: assets/games.json niet gevonden</h1>"; }
+                document.getElementById('secret-menu').style.display = 'none';
+                isSecretMenuOpen = false;
+            } catch (e) { container.innerHTML = `<h1>FOUT: Inladen ${year} mislukt</h1>`; }
         }
 
         function render() {
@@ -290,12 +403,48 @@
                 return;
             }
 
+            // --- Navigatie binnen het geheime menu ---
+            if (isSecretMenuOpen) {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                    if (secretMenuIndex < secretMenuOptions.length - 1) {
+                        secretMenuIndex++;
+                        renderSecretMenu();
+                    }
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                    if (secretMenuIndex > 0) {
+                        secretMenuIndex--;
+                        renderSecretMenu();
+                    }
+                } else if (e.key === 'Enter' || e.key === ' ') {
+                    secretMenuOptions[secretMenuIndex].action();
+                }
+                return; // Stop verdere verwerking zodat we niet carrousel scrollen
+            }
+
             if (e.key === 'ArrowRight' && currentIndex < games.length - 1) {
                 currentIndex++;
                 render();
             } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
                 currentIndex--;
                 render();
+            } else if (e.key === ' ') {
+                // --- Geheime Menu Check (Spatie / A-knop) ---
+                const now = Date.now();
+                if (now - lastEnterTime < 2000) {
+                    enterPresses++;
+                } else {
+                    enterPresses = 1; // Eerste druk na lange tijd
+                }
+                lastEnterTime = now;
+
+                if (enterPresses >= 5) {
+                    enterPresses = 0;
+                    isSecretMenuOpen = true;
+                    secretMenuIndex = 0; // Reset naar de bovenste optie
+                    renderSecretMenu();
+                    document.getElementById('secret-menu').style.display = 'block';
+                }
+                // --------------------------
             } else if (e.key === 'Enter') {
                 isPlaying = true;
 
