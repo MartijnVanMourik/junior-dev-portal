@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'datasources/**/links.txt'
+      - 'datasources/**/*.csv'
       - 'scripts/generate_arcade_json.py'
 
 jobs:
