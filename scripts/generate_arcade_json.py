@@ -1,6 +1,7 @@
 import json
 import re
 import os
+import csv
 import glob
 
 def extract_id(url):
@@ -23,20 +24,72 @@ def generate_fresh_json():
     # Loop over alle mappen in datasources heen
     for folder_name in sorted(os.listdir(datasources_dir)):
         folder_path = os.path.join(datasources_dir, folder_name)
-        
-        # Check of het een jaartal-formaat is (bijv. 2024-2025)
         if os.path.isdir(folder_path) and re.match(r'^[0-9]{4}-[0-9]{4}$', folder_name):
             years.append(folder_name)
             
-            input_file = os.path.join(folder_path, 'links.txt')
-            json_file = os.path.join(folder_path, 'games.json')
-            
-            # Waarschuwing als er geen bronbestand is
-            if not os.path.exists(input_file):
-                print(f"Waarschuwing: '{input_file}' ontbreekt in jaarmap.")
-                continue
+    # Bepaal het laatste jaar voor inkomende CSV data
+    latest_year = years[-1] if years else None
+
+    # Lees CSV bestand indien aanwezig in datasources map
+    csv_file = os.path.join(datasources_dir, 'ingeleverde_games.csv')
+    csv_games = []
+    if os.path.exists(csv_file):
+        with open(csv_file, 'r', encoding='utf-8', errors='replace') as f:
+            dialect = csv.excel
+            try:
+                sample = f.read(1024)
+                f.seek(0)
+                sniffer = csv.Sniffer()
+                dialect = sniffer.sniff(sample, delimiters=',;')
+            except Exception:
+                pass
                 
-            games_list = []
+            reader = list(csv.reader(f, dialect=dialect))
+            if reader:
+                headers = reader[0]
+                name_idx, author_idx, url_idx = -1, -1, -1
+                for i, h in enumerate(headers):
+                    hl = h.lower()
+                    if any(kw in hl for kw in ['naam', 'titel', 'name', 'game']):
+                        if name_idx == -1: name_idx = i
+                    if any(kw in hl for kw in ['maker', 'auteur', 'leerling', 'author', 'wie']):
+                        if author_idx == -1: author_idx = i
+                    if any(kw in hl for kw in ['link', 'url', 'makecode', 'deel']):
+                        if url_idx == -1: url_idx = i
+                
+                for row in reader[1:]:
+                    url = row[url_idx] if url_idx != -1 and url_idx < len(row) else ''
+                    name = row[name_idx] if name_idx != -1 and name_idx < len(row) else ''
+                    author = row[author_idx] if author_idx != -1 and author_idx < len(row) else ''
+                    
+                    if url_idx == -1:
+                        # Als we geen geldige unieke kolom vinden, zoek door row cells heen
+                        for cell in row:
+                            if extract_id(cell):
+                                url = cell
+                                break
+                    
+                    share_id = extract_id(url)
+                    if share_id:
+                        if not name: name = f"Project {share_id[:5]}"
+                        if not author: author = "MakeCode Arcade"
+                        game_obj = {
+                            "name": name.strip(),
+                            "author": author.strip(),
+                            "shareId": share_id,
+                            "customImage": "assets/backup.jpg" # Pad vanuit kiosk.html referentie
+                        }
+                        csv_games.append(game_obj)
+        print(f"CSV Ingelezen: {len(csv_games)} games gevonden in CSV.")
+
+    for folder_name in years:
+        folder_path = os.path.join(datasources_dir, folder_name)
+        input_file = os.path.join(folder_path, 'links.txt')
+        json_file = os.path.join(folder_path, 'games.json')
+        
+        games_dict = {} # Deduplicatie via een interne dict
+        
+        if os.path.exists(input_file):
             with open(input_file, 'r', encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
@@ -60,36 +113,48 @@ def generate_fresh_json():
                             "name": name.strip(),
                             "author": author.strip(),
                             "shareId": share_id,
-                            "customImage": "assets/backup.jpg" # Pad vanuit kiosk.html referentie
+                            "customImage": "assets/backup.jpg"
                         }
                         
-                        games_list.append(game_obj)
-                        all_games[share_id] = game_obj # Voor de 'all' lijst (overschrijft dubbelen met unieke ID)
-                        
-            # Bewaar de specifieke jaar-lijst
-            with open(json_file, 'w', encoding='utf-8') as f:
-                json.dump(games_list, f, indent=2)
-            print(f"Jaar {folder_name}: {len(games_list)} games.")
+                        games_dict[share_id] = game_obj
+
+        # Voeg games uit de CSV toe aan de huidige (laatste) jaargang
+        if folder_name == latest_year:
+            for game in csv_games:
+                games_dict[game["shareId"]] = game # Overschrijft eventuele oude data/links
+
+        games_list = list(games_dict.values())
+        
+        # Sorteer games op titel (ascending), head-on case insensitive
+        games_list.sort(key=lambda x: x['name'].lower())
+
+        # Push to all_games list deduplicator
+        for game in games_list:
+            all_games[game["shareId"]] = game
+
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(games_list, f, indent=2)
+        print(f"Jaar {folder_name}: {len(games_list)} games (Gesorteerd).")
             
-    # Genereer de 'all' folder met alle samengevoegde, unieke games
+    # Genereer de 'all' folder
     all_folder = os.path.join(datasources_dir, 'all')
     os.makedirs(all_folder, exist_ok=True)
     all_games_list = list(all_games.values())
+    all_games_list.sort(key=lambda x: x['name'].lower())
     
     with open(os.path.join(all_folder, 'games.json'), 'w', encoding='utf-8') as f:
         json.dump(all_games_list, f, indent=2)
     print(f"Totaal unieke games verzameld in 'all/games.json': {len(all_games_list)}")
 
     # Maak de globale index aan
-    years.sort()
     index_data = {
         "years": years,
-        "latest": years[-1] if years else None
+        "latest": latest_year
     }
     
     with open(os.path.join(datasources_dir, 'index.json'), 'w', encoding='utf-8') as f:
         json.dump(index_data, f, indent=2)
-    print(f"Index.json gegenereerd. Meest recente jaar ingesteld op: {index_data['latest']}.")
+    print(f"Index.json gegenereerd. Meest recente jaar ingesteld op: {latest_year}.")
 
 if __name__ == "__main__":
     generate_fresh_json()
