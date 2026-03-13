@@ -303,6 +303,12 @@
         }
         pollGamepads();
 
+        // Houd bij welke toetsen ingedrukt zijn
+        const activeKeys = new Set();
+        document.addEventListener('keyup', (e) => {
+            activeKeys.delete(e.key);
+        });
+
         async function init() {
             try {
                 const indexRes = await fetch('datasources/index.json?t=' + Date.now());
@@ -396,11 +402,31 @@
         }
 
         document.addEventListener('keydown', (e) => {
+            activeKeys.add(e.key);
+
+            // --- 1 + 2 combo to exit game ---
+            if (activeKeys.has('1') && activeKeys.has('2')) {
+                if (isPlaying) {
+                    exitGame();
+                } else if (isSecretMenuOpen) {
+                    document.getElementById('secret-menu').style.display = 'none';
+                    isSecretMenuOpen = false;
+                }
+                return;
+            }
+
             if (isPlaying) {
                 // Werkt alleen als we buiten het iframe ergens op de pagina hebben geklikt met een muis:
                 if (e.key === 'Escape' || e.key === 'q' || e.key === 'Q') {
                     exitGame();
                 }
+
+                // Opmerking: Omdat het MakeCode iframe cross-origin is, ontvangt 
+                // het iframe standaard zelf de toetsaanslagen als deze focus heeft. 
+                // We kunnen Control en Alt (A/B) niet direct simuleren in het iframe 
+                // vanuit de launcher via javascript vanwege browser beveiligingsrestricties. 
+                // Normaal luistert MakeCode naar 'z', 'x', 'space' en 'enter'.
+
                 return;
             }
 
@@ -416,8 +442,13 @@
                         secretMenuIndex--;
                         renderSecretMenu();
                     }
-                } else if (e.key === 'Enter' || e.key === ' ') {
+                } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Control') {
+                    // Control (A) of Enter = Selecteren
                     secretMenuOptions[secretMenuIndex].action();
+                } else if (e.key === 'Alt') {
+                    // Alt (B) = Sluiten
+                    document.getElementById('secret-menu').style.display = 'none';
+                    isSecretMenuOpen = false;
                 }
                 return; // Stop verdere verwerking zodat we niet carrousel scrollen
             }
@@ -428,8 +459,8 @@
             } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
                 currentIndex--;
                 render();
-            } else if (e.key === ' ') {
-                // --- Geheime Menu Check (Spatie / A-knop) ---
+            } else if (e.key === ' ' || e.key === 'Control') {
+                // --- Geheime Menu Check (Spatie of A-knop/Control) ---
                 const now = Date.now();
                 if (now - lastEnterTime < 2000) {
                     enterPresses++;
@@ -445,27 +476,35 @@
                     renderSecretMenu();
                     document.getElementById('secret-menu').style.display = 'block';
                 }
+                // Druk je op Control in het hoofdscherm, start dan het spel nadat we checken of het geheime menu niet net opende
+                if (!isSecretMenuOpen && e.key === 'Control') {
+                    startGame();
+                }
                 // --------------------------
             } else if (e.key === 'Enter') {
-                isPlaying = true;
-
-                // We and gebruik maken van ---run met de juiste fullscreen flags
-                const game = games[currentIndex];
-                const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
-
-                gameContainer.innerHTML = `<iframe src="${gameUrl}" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" allow="gamepad; autoplay" allowfullscreen tabindex="-1"></iframe>`;
-                gameContainer.style.display = 'block';
-                exitBtn.style.display = 'block';
-
-                setTimeout(() => {
-                    const iframe = gameContainer.querySelector('iframe');
-                    if (iframe && iframe.contentWindow) {
-                        iframe.focus(); // Focus the iframe element
-                        iframe.contentWindow.focus(); // Instruct the inner window to take focus
-                    }
-                }, 100);
+                startGame();
             }
         });
+
+        function startGame() {
+            isPlaying = true;
+
+            // We maken gebruik van ---run met de juiste fullscreen flags
+            const game = games[currentIndex];
+            const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
+
+            gameContainer.innerHTML = `<iframe src="${gameUrl}" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" allow="gamepad; autoplay" allowfullscreen tabindex="-1" id="makecode-iframe"></iframe>`;
+            gameContainer.style.display = 'block';
+            exitBtn.style.display = 'block';
+
+            setTimeout(() => {
+                const iframe = document.getElementById('makecode-iframe');
+                if (iframe && iframe.contentWindow) {
+                    iframe.focus(); // Focus the iframe element
+                    iframe.contentWindow.focus(); // Instruct the inner window to take focus
+                }
+            }, 100);
+        }
 
         init();
     </script>
