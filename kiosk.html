@@ -402,6 +402,17 @@
         }
 
         document.addEventListener('keydown', (e) => {
+            // CRUCIALE FIX: Als we aan het spelen zijn, stuur ELKE toetsaanslag 
+            // eerst naar het iframe en doe verder NIETS in de portal.
+            if (isPlaying) {
+                const iframe = document.getElementById('makecode-iframe');
+                if (iframe) {
+                    iframe.focus();
+                    // We laten de event "doorlopen" zodat het iframe hem kan vangen
+                    return;
+                }
+            }
+
             activeKeys.add(e.key);
 
             // --- 1 + 2 combo to exit game ---
