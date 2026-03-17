@@ -490,38 +490,38 @@
             isPlaying = true;
 
             const game = games[currentIndex];
-            // We gebruiken de ---run URL voor de beste kiosk-ervaring
             const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
 
-            // 1. Maak het iframe aan
-            const iframe = document.createElement('iframe');
-            iframe.id = "makecode-iframe";
-            iframe.src = gameUrl;
-            iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms");
-            iframe.setAttribute("allow", "gamepad; autoplay");
-            iframe.setAttribute("allowfullscreen", "");
-            iframe.setAttribute("tabindex", "-1");
+            // Maak het iframe aan
+            gameContainer.innerHTML = `<iframe src="${gameUrl}" 
+        sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" 
+        allow="gamepad; autoplay" 
+        allowfullscreen 
+        tabindex="-1" 
+        id="makecode-iframe"></iframe>`;
 
-            // 2. DE FIX: Wacht tot het iframe geladen is en dwing dan focus af
-            iframe.onload = function () {
-                console.log("Game geladen, focus forceren...");
-                // Meerdere pogingen omdat browsers soms nukkig zijn bij cross-origin iframes
-                setTimeout(() => {
-                    iframe.focus();
-                    if (iframe.contentWindow) iframe.contentWindow.focus();
-                }, 100);
-
-                setTimeout(() => {
-                    iframe.focus();
-                    if (iframe.contentWindow) iframe.contentWindow.focus();
-                }, 1000);
-            };
-
-            // 3. Plaats het iframe in de container
-            gameContainer.innerHTML = '';
-            gameContainer.appendChild(iframe);
             gameContainer.style.display = 'block';
             exitBtn.style.display = 'block';
+
+            const iframe = document.getElementById('makecode-iframe');
+
+            // DE FIX: Een agressieve focus-loop
+            let focusAttempts = 0;
+            const forceFocus = setInterval(() => {
+                if (iframe && iframe.contentWindow) {
+                    iframe.focus();
+                    iframe.contentWindow.focus();
+                }
+                focusAttempts++;
+                // Stop na 15 pogingen (ongeveer 3 seconden)
+                if (focusAttempts > 15) clearInterval(forceFocus);
+            }, 200);
+
+            // Luister naar de 'load' van het iframe voor een laatste push
+            iframe.onload = () => {
+                iframe.focus();
+                iframe.contentWindow.focus();
+            };
         }
 
         // EXTRA FIX: Als er ergens op het scherm geklikt wordt (bijv. op de Start knop),
