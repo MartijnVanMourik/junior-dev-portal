@@ -1,0 +1,45 @@
+# Player 1
+keycode 111 = Up w W
+keycode 116 = Down s S
+keycode 113 = Left a A
+keycode 114 = Right d D
+
+keycode 44 = z Z s S space
+keycode 55 = x X a A
+
+# Player 2
+keycode 27 = i I
+keycode 42 = j J
+keycode 41 = k K
+keycode 40 = l L
+
+keycode 38 = u U o O
+keycode 39 = i I p P
+
+# Menu
+keycode 9 = Return Enter
+keycode 14 = R
+
+Dit leidt tot onderstaande .Xmodmap-file:
+
+! Player 1
+keycode 111 = Up
+keycode 116 = Down
+keycode 113 = Left
+keycode 114 = Right
+keycode 44 = z
+keycode 55 = x
+
+! Player 2
+keycode 27 = w
+keycode 42 = a
+keycode 41 = s
+keycode 40 = d
+
+! Player 2 Actie knoppen
+keycode 38 = u
+keycode 39 = i
+
+! Menu & Reset
+keycode 9 = Return
+keycode 14 = r
