@@ -29,11 +29,8 @@
     // Luister naar toetsen op de 'parent' pagina
     window.addEventListener('keydown', function (e) {
         if (keyMap[e.key]) {
-            console.log("MATCH! Ik vertaal " + e.key + " naar " + keyMap[e.key]); // Voeg dit toe
             e.preventDefault();
             injectKey(keyMap[e.key]);
-        } else {
-            console.log("Geen match voor: " + e.key); // Handig om te zien wat je IPAC uitstuurt
         }
     }, true);
 
