@@ -507,24 +507,31 @@
             // HET SIGNAAL: Verander de venstertitel zodat Linux het ziet
             document.title = "TRIGGER_FOCUS";
 
-            // Zet de titel na 3 seconden weer terug naar normaal
-            setTimeout(() => {
-                document.title = "JUNIOR DEV GAME PORTAL";
-            }, 3000);
-
             const game = games[currentIndex];
             const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
 
             // Maak het iframe aan
             gameContainer.innerHTML = `<iframe src="${gameUrl}" 
-        sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" 
-        allow="gamepad; autoplay" 
-        allowfullscreen 
-        tabindex="-1" 
-        id="makecode-iframe"></iframe>`;
+                sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" 
+                allow="gamepad; autoplay" 
+                allowfullscreen 
+                tabindex="-1" 
+                id="makecode-iframe"></iframe>`;
 
             gameContainer.style.display = 'block';
-            // exitBtn.style.display = 'block';
+
+            // HET NIEUWE SIGNAAL: Wacht tot het iframe technisch geladen is
+            iframe.onload = () => {
+                // Geef MakeCode 1.5 seconde de tijd om de engine echt te starten
+                setTimeout(() => {
+                    document.title = "TRIGGER_FOCUS";
+
+                    // Zet de titel na 2 seconden weer terug
+                    setTimeout(() => {
+                        document.title = "JUNIOR DEV GAME PORTAL";
+                    }, 2000);
+                }, 1500);
+            };
 
             const iframe = document.getElementById('makecode-iframe');
 
