@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>JUNIOR DEV GAME PORTAL</title>
+    <title>Arcade Klas Launcher</title>
     <link rel="icon" type="image/png" href="assets/pacman.png">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
@@ -18,9 +18,9 @@
             overflow: hidden;
             margin: 0;
             position: relative;
+            /* Voor pseudo-element */
         }
 
-        /* De maze-achtergrond uit de screenshots */
         body::before {
             content: "";
             position: fixed;
@@ -30,10 +30,14 @@
             height: 100vh;
             background: url('assets/maze.png') no-repeat center center;
             background-size: 100% 100%;
+            /* Stretcht precies mee met het scherm */
             opacity: 0.1;
-            z-index: -1;
+            /* Iets beter te zien voor je test, pas aan naar wens */
+            z-index: 1;
+            /* Zorg dat je niet per ongeluk op de achtergrond klikt */
             pointer-events: none;
             image-rendering: pixelated;
+            /* Arcade feel! */
         }
 
         .arcade-marquee {
@@ -60,101 +64,11 @@
 
         .sprite {
             height: 60px;
+            /* Sprites iets groter */
             image-rendering: pixelated;
+            /* Voor de retro look bij het uitschalen */
         }
 
-        /* --- Nieuw: Het Arcade Laadscherm --- */
-        #loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            z-index: 999;
-            /* Tussen het carousel en het iframe-container */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-        }
-
-        /* Het groene pixel-kader gebaseerd op de screenshots */
-        .loading-modal {
-            background: #111;
-            border: 6px solid #00ff00;
-            box-shadow: 0 0 30px #00ff00;
-            padding: 40px;
-            width: 70%;
-            max-width: 700px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 30px;
-            border-radius: 4px;
-        }
-
-        .loading-title {
-            color: #00ff00;
-            font-size: 30px;
-            text-shadow: 0 0 10px #00ff00, 2px 2px #005500;
-            letter-spacing: 4px;
-        }
-
-        /* Een geanimeerde pixel-loader */
-        .loader-dots {
-            display: flex;
-            gap: 15px;
-        }
-
-        .dot {
-            width: 15px;
-            height: 15px;
-            background-color: #00ff00;
-            animation: dot-blink 1.4s infinite;
-            image-rendering: pixelated;
-        }
-
-        .dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes dot-blink {
-
-            0%,
-            20% {
-                opacity: 0;
-            }
-
-            40%,
-            60% {
-                opacity: 1;
-            }
-
-            80%,
-            100% {
-                opacity: 0;
-            }
-        }
-
-        .loading-message {
-            color: #00ffff;
-            font-size: 14px;
-            letter-spacing: 1px;
-            line-height: 1.6;
-            margin-top: 10px;
-        }
-
-        /* --- Einde Nieuw: Stijlen --- */
-
-        /* Bestaande stijlen blijven gelijk... */
         .instructions-joystick {
             position: relative;
             z-index: 10;
@@ -163,6 +77,7 @@
             color: #777;
             letter-spacing: 1px;
             margin-bottom: 25px;
+            /* Beetje ruimte tussen de twee teksten */
         }
 
         .instructions-kies {
@@ -183,6 +98,7 @@
             height: 65vh;
             margin: 25px 0;
             padding: 0 calc(50vw - 241px);
+            /* Precies in the midden uitlijnen */
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -190,6 +106,7 @@
             min-width: 340px;
             width: 340px;
             height: 380px;
+            /* Vaste hoogte voorkomt springen van elementen */
             padding: 25px;
             border: 6px solid #333;
             background: #111;
@@ -210,6 +127,7 @@
         .thumb {
             width: 340px;
             height: 255px;
+            /* Altijd de MakeCode verhouding aanhouden */
             object-fit: cover;
             border: 4px solid #222;
             margin-bottom: 25px;
@@ -228,6 +146,8 @@
             color: #00ffff;
         }
 
+
+
         #game-container {
             display: none;
             position: fixed;
@@ -237,7 +157,6 @@
             height: 100vh;
             background: #000;
             z-index: 1000;
-            /* iframe bóven het laadscherm */
         }
 
         #game-container iframe {
@@ -252,6 +171,7 @@
             top: 20px;
             right: 20px;
             z-index: 1001;
+            /* Zorg dat de knop altijd bóven de game (z-index 1000) ligt */
             padding: 10px 15px;
             background: #ff0000;
             color: white;
@@ -274,8 +194,7 @@
             background: #111;
             border: 4px solid #00ff00;
             padding: 30px;
-            z-index: 1002;
-            /* Altijd bóvenalles */
+            z-index: 1000;
             text-align: center;
             box-shadow: 0 0 30px #00ff00;
         }
@@ -305,6 +224,7 @@
             background: #008888;
             color: #111;
             transform: scale(1.05);
+            /* Lichte arcade-pop als hij geselecteerd is */
         }
     </style>
 </head>
@@ -316,308 +236,340 @@
         <h1>JUNIOR DEV GAME PORTAL</h1>
         <img class="sprite" src="assets/blinky.png" alt="Ghost">
     </div>
+    <div id="carousel"></div>
+    <div class="instructions-joystick">JOYSTICK = KIEZEN | START = SPELEN</div>
+    <div class="instructions-kies">KIES EEN GAME</div>
+    <div id="game-container"></div>
+    <div id="exit-btn">X SLUITEN</div>
 
-    <div id="loading-overlay" style="display: none;">
-        <div class="loading-modal">
-            <div class="loading-title">LOADING GAME...</div>
-            <div class="loader-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                }
-                <div class="loading-message">INITIALIZING MAKECODE ARCADE ENGINE.<br>PLEASE WAIT.</div>
-            </div>
-        </div>
-        <div id="carousel"></div>
-        <div class="instructions-joystick">JOYSTICK = KIEZEN | START = SPELEN</div>
-        <div class="instructions-kies">KIES EEN GAME</div>
-        <div id="game-container"></div>
-        <div id="exit-btn">X SLUITEN</div>
+    <div id="secret-menu">
+        <h2>KIES JAARGANG</h2>
+        <div id="year-buttons"></div>
+    </div>
 
-        <div id="secret-menu">
-            <h2>KIES JAARGANG</h2>
-            <div id="year-buttons"></div>
-        </div>
+    <script>
+        let games = [];
+        let currentIndex = 0;
+        let isPlaying = false;
 
-        <script>
-            let games = [];
-            let currentIndex = 0;
-            let isPlaying = false;
+        // Geheime Menu Tracking
+        let availableYears = [];
+        let currentYear = '';
+        let enterPresses = 0;
+        let lastEnterTime = 0;
 
-            let availableYears = [];
-            let currentYear = '';
-            let enterPresses = 0;
-            let lastEnterTime = 0;
+        let isSecretMenuOpen = false;
+        let secretMenuIndex = 0;
+        let secretMenuOptions = [];
 
-            let isSecretMenuOpen = false;
-            let secretMenuIndex = 0;
-            let secretMenuOptions = [];
+        const container = document.getElementById('carousel');
+        const gameContainer = document.getElementById('game-container');
+        const exitBtn = document.getElementById('exit-btn');
 
-            const container = document.getElementById('carousel');
-            const gameContainer = document.getElementById('game-container');
-            const exitBtn = document.getElementById('exit-btn');
-            const loadingOverlay = document.getElementById('loading-overlay'); // Nieuw
-
-            function exitGame() {
-                if (isPlaying) {
-                    gameContainer.style.display = 'none';
-                    gameContainer.innerHTML = '';
-                    exitBtn.style.display = 'none';
-                    loadingOverlay.style.display = 'none'; // Verberg laadscherm bij exit
-                    isPlaying = false;
-                }
+        function exitGame() {
+            if (isPlaying) {
+                gameContainer.style.display = 'none';
+                gameContainer.innerHTML = ''; // iframe afbreken = geheugen leegmaken
+                exitBtn.style.display = 'none';
+                isPlaying = false;
             }
+        }
 
-            exitBtn.addEventListener('click', exitGame);
+        // Simpele klik op de zichtbare knop
+        exitBtn.addEventListener('click', exitGame);
 
-            function pollGamepads() {
-                if (isPlaying) {
-                    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
-                    for (let gp of gamepads) {
-                        if (gp && gp.buttons) {
-                            const btnSelect = gp.buttons[8]?.pressed;
-                            const btnStart = gp.buttons[9]?.pressed;
+        // Constante controle voor USB Gamepads (zoals Arcade joysticks)
+        // Hiermee omzeilen we het feit dat iframes normale toetsaanslagen (zoals ESC) opslokken.
+        function pollGamepads() {
+            if (isPlaying) {
+                const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+                for (let gp of gamepads) {
+                    if (gp && gp.buttons) {
+                        // De meeste USB arcade encoders gebruiken specifieke buttons voor SELECT (Coin) en START
+                        // Bijvoorbeeld Button 8 = Select, Button 9 = Start.
+                        // Je kunt deze nummers aanpassen als jouw arcadekast dat vereist.
+                        // Hier triggeren we exit als bijvoorbeeld button 8 of 9 (P1 Start/Insert Coin) wordt ingedrukt, 
+                        // OF als er een 'Home' button (vaak button 12 of hoger) aanwezig is.
+                        // Een bekende veilige combinatie is vaak de Select Knop (button 8).
+                        const btnSelect = gp.buttons[8]?.pressed;
+                        const btnStart = gp.buttons[9]?.pressed;
 
-                            if (btnSelect || btnStart || (gp.buttons[6]?.pressed) || (gp.buttons[16]?.pressed)) {
-                                exitGame();
-                                break;
-                            }
+                        // We checken of Select + Start samen ingedrukt worden, OF je kunt 1 knop hard-coden.
+                        // Voor het gemak nu: Als knop 8 wordt ingedrukt, exit game.
+                        if (btnSelect || (gp.buttons[6]?.pressed /* L2 */) || (gp.buttons[16]?.pressed /* Xbox Guide */)) {
+                            exitGame();
+                            break;
                         }
                     }
                 }
-                requestAnimationFrame(pollGamepads);
             }
-            pollGamepads();
+            requestAnimationFrame(pollGamepads); // Blijf 60x per seconde kijken of de knop is ingedrukt
+        }
+        pollGamepads();
 
-            const activeKeys = new Set();
-            document.addEventListener('keyup', (e) => {
-                activeKeys.delete(e.key);
+        // Houd bij welke toetsen ingedrukt zijn
+        const activeKeys = new Set();
+        document.addEventListener('keyup', (e) => {
+            activeKeys.delete(e.key);
+        });
+
+        async function init() {
+            try {
+                const indexRes = await fetch('datasources/index.json?t=' + Date.now());
+                const indexData = await indexRes.json();
+
+                availableYears = indexData.years;
+                currentYear = indexData.latest;
+
+                buildSecretMenu();
+                if (currentYear) {
+                    loadYear(currentYear);
+                } else {
+                    container.innerHTML = "<h2>GEEN JAARGANGEN GEVONDEN</h2>";
+                }
+            } catch (e) { document.body.innerHTML = "<h1>FOUT: datasources/index.json niet gevonden</h1>"; }
+        }
+
+        function buildSecretMenu() {
+            secretMenuOptions = [];
+            availableYears.forEach(year => {
+                secretMenuOptions.push({ label: `JAARGANG ${year}`, action: () => loadYear(year) });
             });
-
-            async function init() {
-                try {
-                    const indexRes = await fetch('datasources/index.json?t=' + Date.now());
-                    const indexData = await indexRes.json();
-
-                    availableYears = indexData.years;
-                    currentYear = indexData.latest;
-
-                    buildSecretMenu();
-                    if (currentYear) {
-                        loadYear(currentYear);
-                    } else {
-                        container.innerHTML = "<h2>GEEN JAARGANGEN GEVONDEN</h2>";
-                    }
-                } catch (e) { document.body.innerHTML = "<h1>FOUT: datasources/index.json niet gevonden</h1>"; }
-            }
-
-            function buildSecretMenu() {
-                secretMenuOptions = [];
-                availableYears.forEach(year => {
-                    secretMenuOptions.push({ label: `JAARGANG ${year}`, action: () => loadYear(year) });
-                });
-                secretMenuOptions.push({ label: 'ALLE SPELLEN (OPEN AVOND)', action: () => loadYear('all') });
-                secretMenuOptions.push({
-                    label: 'X SLUITEN', action: () => {
-                        document.getElementById('secret-menu').style.display = 'none';
-                        isSecretMenuOpen = false;
-                    }
-                });
-                renderSecretMenu();
-            }
-
-            function renderSecretMenu() {
-                const btnContainer = document.getElementById('year-buttons');
-                btnContainer.innerHTML = '';
-
-                secretMenuOptions.forEach((opt, index) => {
-                    const btn = document.createElement('button');
-                    btn.className = `year-btn ${index === secretMenuIndex ? 'selected' : ''}`;
-                    btn.innerText = opt.label;
-
-                    if (opt.label === 'X SLUITEN') {
-                        btn.style.borderColor = 'red';
-                        if (index !== secretMenuIndex) btn.style.color = 'red';
-                    }
-
-                    btn.onclick = opt.action;
-                    btnContainer.appendChild(btn);
-                });
-            }
-
-            async function loadYear(year) {
-                try {
-                    currentYear = year;
-                    const response = await fetch(`datasources/${year}/games.json?t=` + Date.now());
-                    games = await response.json();
-
-                    currentIndex = 0;
-                    if (games.length > 0) {
-                        render();
-                    } else {
-                        container.innerHTML = "<h2>GEEN GAMES IN LIJST</h2>";
-                    }
+            secretMenuOptions.push({ label: 'ALLE SPELLEN (OPEN AVOND)', action: () => loadYear('all') });
+            secretMenuOptions.push({
+                label: 'X SLUITEN', action: () => {
                     document.getElementById('secret-menu').style.display = 'none';
                     isSecretMenuOpen = false;
-                } catch (e) { container.innerHTML = `<h1>FOUT: Inladen ${year} mislukt</h1>`; }
-            }
+                }
+            });
+            renderSecretMenu();
+        }
 
-            function render() {
-                container.innerHTML = '';
+        function renderSecretMenu() {
+            const btnContainer = document.getElementById('year-buttons');
+            btnContainer.innerHTML = '';
 
-                games.forEach((game, index) => {
-                    const card = document.createElement('div');
-                    card.className = `game-card ${index === currentIndex ? 'selected' : ''}`;
-                    card.id = `card-${index}`;
-                    const thumb = `https://makecode.com/api/${game.shareId}/thumb`;
+            secretMenuOptions.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = `year-btn ${index === secretMenuIndex ? 'selected' : ''}`;
+                btn.innerText = opt.label;
 
-                    card.innerHTML = `
+                if (opt.label === 'X SLUITEN') {
+                    btn.style.borderColor = 'red';
+                    // Alleen de tekst rood maken als hij niet geselecteerd is
+                    if (index !== secretMenuIndex) btn.style.color = 'red';
+                }
+
+                btn.onclick = opt.action;
+                btnContainer.appendChild(btn);
+            });
+        }
+
+        async function loadYear(year) {
+            try {
+                currentYear = year;
+                const response = await fetch(`datasources/${year}/games.json?t=` + Date.now());
+                games = await response.json();
+
+                currentIndex = 0; // Reset
+                if (games.length > 0) {
+                    render();
+                } else {
+                    container.innerHTML = "<h2>GEEN GAMES IN LIJST</h2>";
+                }
+                document.getElementById('secret-menu').style.display = 'none';
+                isSecretMenuOpen = false;
+            } catch (e) { container.innerHTML = `<h1>FOUT: Inladen ${year} mislukt</h1>`; }
+        }
+
+        function render() {
+            container.innerHTML = '';
+
+            games.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = `game-card ${index === currentIndex ? 'selected' : ''}`;
+                card.id = `card-${index}`;
+                const thumb = `https://makecode.com/api/${game.shareId}/thumb`;
+
+                card.innerHTML = `
                     <img class="thumb" src="${thumb}" onerror="this.src='assets/backup.jpg'">
                     <div class="title">${game.name.toUpperCase()}</div>
                     <div class="author">${game.author.toUpperCase()}</div>
                 `;
-                    container.appendChild(card);
-                });
+                container.appendChild(card);
+            });
 
-                const offset = currentIndex * -482;
-                container.style.transform = `translateX(${offset}px)`;
+            // Wiskundig perfecte uitlijning (width + padding + border + margin)
+            // 340 + 50 + 12 + 80 = 482px per kaart opschuiven.
+            const offset = currentIndex * -482;
+            container.style.transform = `translateX(${offset}px)`;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            // CRUCIALE FIX: Als we aan het spelen zijn, stuur ELKE toetsaanslag 
+            // eerst naar het iframe en doe verder NIETS in de portal.
+            if (isPlaying) {
+                const iframe = document.getElementById('makecode-iframe');
+                if (iframe) {
+                    iframe.focus();
+                    // We laten de event "doorlopen" zodat het iframe hem kan vangen
+                    return;
+                }
             }
 
-            document.addEventListener('keydown', (e) => {
+            activeKeys.add(e.key);
+
+            // --- 1 + 2 combo to exit game ---
+            if (activeKeys.has('1') && activeKeys.has('2')) {
                 if (isPlaying) {
-                    const iframe = document.getElementById('makecode-iframe');
-                    if (iframe) {
-                        iframe.focus();
-                        return;
-                    }
+                    exitGame();
+                } else if (isSecretMenuOpen) {
+                    document.getElementById('secret-menu').style.display = 'none';
+                    isSecretMenuOpen = false;
+                }
+                return;
+            }
+
+            if (isPlaying) {
+                // Werkt alleen als we buiten het iframe ergens op de pagina hebben geklikt met een muis:
+                if (e.key === 'Escape' || e.key === 'q' || e.key === 'Q') {
+                    exitGame();
                 }
 
-                activeKeys.add(e.key);
+                // Opmerking: Omdat het MakeCode iframe cross-origin is, ontvangt 
+                // het iframe standaard zelf de toetsaanslagen als deze focus heeft. 
+                // We kunnen Control en Alt (A/B) niet direct simuleren in het iframe 
+                // vanuit de launcher via javascript vanwege browser beveiligingsrestricties. 
+                // Normaal luistert MakeCode naar 'z', 'x', 'space' en 'enter'.
 
-                if (activeKeys.has('1') && activeKeys.has('2')) {
-                    if (isPlaying) {
-                        exitGame();
-                    } else if (isSecretMenuOpen) {
-                        document.getElementById('secret-menu').style.display = 'none';
-                        isSecretMenuOpen = false;
-                    }
-                    return;
-                }
+                return;
+            }
 
-                if (isPlaying) {
-                    if (e.key === 'Escape' || e.key === 'q' || e.key === 'Q') {
-                        exitGame();
-                    }
-                    return;
-                }
-
-                if (isSecretMenuOpen) {
-                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                        if (secretMenuIndex < secretMenuOptions.length - 1) {
-                            secretMenuIndex++;
-                            renderSecretMenu();
-                        }
-                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                        if (secretMenuIndex > 0) {
-                            secretMenuIndex--;
-                            renderSecretMenu();
-                        }
-                    } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Control') {
-                        secretMenuOptions[secretMenuIndex].action();
-                    } else if (e.key === 'Alt') {
-                        document.getElementById('secret-menu').style.display = 'none';
-                        isSecretMenuOpen = false;
-                    }
-                    return;
-                }
-
-                if (e.key === 'ArrowRight' && currentIndex < games.length - 1) {
-                    currentIndex++;
-                    render();
-                } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
-                    currentIndex--;
-                    render();
-                } else if (e.key === ' ' || e.key === 'Control') {
-                    const now = Date.now();
-                    if (now - lastEnterTime < 2000) {
-                        enterPresses++;
-                    } else {
-                        enterPresses = 1;
-                    }
-                    lastEnterTime = now;
-
-                    if (enterPresses >= 5) {
-                        enterPresses = 0;
-                        isSecretMenuOpen = true;
-                        secretMenuIndex = 0;
+            // --- Navigatie binnen het geheime menu ---
+            if (isSecretMenuOpen) {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                    if (secretMenuIndex < secretMenuOptions.length - 1) {
+                        secretMenuIndex++;
                         renderSecretMenu();
-                        document.getElementById('secret-menu').style.display = 'block';
                     }
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                    if (secretMenuIndex > 0) {
+                        secretMenuIndex--;
+                        renderSecretMenu();
+                    }
+                } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Control') {
+                    // Control (A) of Enter = Selecteren
+                    secretMenuOptions[secretMenuIndex].action();
+                } else if (e.key === 'Alt') {
+                    // Alt (B) = Sluiten
+                    document.getElementById('secret-menu').style.display = 'none';
+                    isSecretMenuOpen = false;
+                }
+                return; // Stop verdere verwerking zodat we niet carrousel scrollen
+            }
 
-                    if (!isSecretMenuOpen && e.key === 'Control') {
-                        startGame();
-                    }
-                } else if (e.key === 'Enter') {
+            if (e.key === 'ArrowRight' && currentIndex < games.length - 1) {
+                currentIndex++;
+                render();
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                currentIndex--;
+                render();
+            } else if (e.key === ' ' || e.key === 'Control') {
+                // --- Geheime Menu Check (Spatie of A-knop/Control) ---
+                const now = Date.now();
+                if (now - lastEnterTime < 2000) {
+                    enterPresses++;
+                } else {
+                    enterPresses = 1; // Eerste druk na lange tijd
+                }
+                lastEnterTime = now;
+
+                if (enterPresses >= 5) {
+                    enterPresses = 0;
+                    isSecretMenuOpen = true;
+                    secretMenuIndex = 0; // Reset naar de bovenste optie
+                    renderSecretMenu();
+                    document.getElementById('secret-menu').style.display = 'block';
+                }
+                // Druk je op Control in het hoofdscherm, start dan het spel nadat we checken of het geheime menu niet net opende
+                if (!isSecretMenuOpen && e.key === 'Control') {
                     startGame();
                 }
-            });
-
-            // --- Nieuw: startGame() geoptimaliseerd met Laadscherm en Bliksem-Clicker ---
-            function startGame() {
-                isPlaying = true;
-
-                // 1. Laat het Arcade laadscherm direct zien
-                loadingOverlay.style.display = 'flex';
-
-                const game = games[currentIndex];
-                const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
-
-                // 2. Maak het iframe aan, maar verberg het nog even
-                gameContainer.innerHTML = `<iframe src="${gameUrl}" 
-        sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" 
-        allow="gamepad; autoplay" 
-        allowfullscreen 
-        tabindex="-1" 
-        style="display: none;" 
-        id="makecode-iframe"></iframe>`;
-
-                // Verberg het laadscherm en toon het iframe wanneer het geladen is
-                const iframe = document.getElementById('makecode-iframe');
-                iframe.onload = () => {
-                    // Wacht even tot MakeCode echt klaar is
-                    setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                        iframe.style.display = 'block';
-                        gameContainer.style.display = 'block';
-                        exitBtn.style.display = 'block';
-
-                        // DE BLIKSEM-CLICKER TRIGGERE (Linux-script ziet dit)
-                        document.title = "TRIGGER_FOCUS";
-
-                        // Reset titel na de klik
-                        setTimeout(() => {
-                            document.title = "JUNIOR DEV GAME PORTAL";
-                        }, 2000);
-
-                    }, 1000); // 1 seconde MakeCode-opstarttijd
-                };
+                // --------------------------
+            } else if (e.key === 'Enter') {
+                startGame();
             }
-            // --- Einde Nieuw: startGame ---
+        });
 
-            window.addEventListener('mousedown', () => {
-                if (isPlaying) {
-                    const iframe = document.getElementById('makecode-iframe');
-                    if (iframe) {
-                        setTimeout(() => {
-                            iframe.focus();
-                            if (iframe.contentWindow) iframe.contentWindow.focus();
-                        }, 10);
-                    }
+        function startGame() {
+            isPlaying = true;
+
+            // HET SIGNAAL: Verander de venstertitel zodat Linux het ziet
+            document.title = "TRIGGER_FOCUS";
+
+            const game = games[currentIndex];
+            const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
+
+            // Maak het iframe aan
+            gameContainer.innerHTML = `<iframe src="${gameUrl}" 
+                sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms" 
+                allow="gamepad; autoplay" 
+                allowfullscreen 
+                tabindex="-1" 
+                id="makecode-iframe"></iframe>`;
+
+            gameContainer.style.display = 'block';
+
+            // HET NIEUWE SIGNAAL: Wacht tot het iframe technisch geladen is
+            iframe.onload = () => {
+                // Geef MakeCode 1.5 seconde de tijd om de engine echt te starten
+                setTimeout(() => {
+                    document.title = "TRIGGER_FOCUS";
+
+                    // Zet de titel na 2 seconden weer terug
+                    setTimeout(() => {
+                        document.title = "JUNIOR DEV GAME PORTAL";
+                    }, 1000);
+                }, 500);
+            };
+
+            const iframe = document.getElementById('makecode-iframe');
+
+            // DE FIX: Een agressieve focus-loop
+            let focusAttempts = 0;
+            const forceFocus = setInterval(() => {
+                if (iframe && iframe.contentWindow) {
+                    iframe.focus();
+                    iframe.contentWindow.focus();
                 }
-            });
+                focusAttempts++;
+                // Stop na 15 pogingen (ongeveer 3 seconden)
+                if (focusAttempts > 15) clearInterval(forceFocus);
+            }, 200);
 
-            init();
-        </script>
+            // Luister naar de 'load' van het iframe voor een laatste push
+            iframe.onload = () => {
+                iframe.focus();
+                iframe.contentWindow.focus();
+            };
+        }
+
+        // EXTRA FIX: Als er ergens op het scherm geklikt wordt (bijv. op de Start knop),
+        // zorg dan dat de focus direct weer naar het spel gaat.
+        window.addEventListener('mousedown', () => {
+            if (isPlaying) {
+                const iframe = document.getElementById('makecode-iframe');
+                if (iframe) {
+                    setTimeout(() => {
+                        iframe.focus();
+                        if (iframe.contentWindow) iframe.contentWindow.focus();
+                    }, 10);
+                }
+            }
+        });
+
+        init();
+    </script>
 </body>
 
 </html>
