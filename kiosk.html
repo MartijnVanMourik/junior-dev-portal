@@ -504,6 +504,14 @@
         function startGame() {
             isPlaying = true;
 
+            // HET SIGNAAL: Verander de venstertitel zodat Linux het ziet
+            document.title = "TRIGGER_FOCUS";
+
+            // Zet de titel na 3 seconden weer terug naar normaal
+            setTimeout(() => {
+                document.title = "JUNIOR DEV GAME PORTAL";
+            }, 3000);
+
             const game = games[currentIndex];
             const gameUrl = `https://arcade.makecode.com/---run?id=${game.shareId}&fullscreen=1&hideSimButtons=1&nofooter=1`;
 
