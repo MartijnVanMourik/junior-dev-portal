@@ -32,9 +32,9 @@ keycode 55 = x
 
 ! Player 2
 keycode 27 = i
-keycode 42 = j
+keycode 42 = l
 keycode 41 = k
-keycode 40 = l
+keycode 40 = j
 
 ! Player 2 Actie knoppen
 keycode 38 = u
