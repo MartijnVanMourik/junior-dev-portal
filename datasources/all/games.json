@@ -1,20 +1,50 @@
 [
   {
-    "name": "Bardtale",
-    "author": "Martijn",
-    "shareId": "S22604-96370-58811-73699",
+    "name": "corupted secrets",
+    "author": "sander",
+    "shareId": "S33029-14423-51439-09229",
+    "customImage": "assets/backup.jpg"
+  },
+  {
+    "name": "dino vs monkey",
+    "author": "joeri",
+    "shareId": "S53492-57721-34311-58610",
     "customImage": "assets/backup.jpg"
   },
   {
     "name": "Jumpy Platformer",
-    "author": "Martijn",
+    "author": "System",
     "shareId": "S93928-20650-41118-65836",
+    "customImage": "assets/backup.jpg"
+  },
+  {
+    "name": "mario apen versie",
+    "author": "bas",
+    "shareId": "S62842-64704-99691-16867",
+    "customImage": "assets/backup.jpg"
+  },
+  {
+    "name": "mega maze",
+    "author": "Tristan",
+    "shareId": "S68081-17145-46566-34220",
+    "customImage": "assets/backup.jpg"
+  },
+  {
+    "name": "miceal en zijn moooie deurbel",
+    "author": "Mitchel",
+    "shareId": "S66763-56432-74321-05314",
     "customImage": "assets/backup.jpg"
   },
   {
     "name": "Test Game (2 player)",
     "author": "Martijn",
     "shareId": "S84673-62697-54728-12737",
+    "customImage": "assets/backup.jpg"
+  },
+  {
+    "name": "Vuur steffie",
+    "author": "Floris",
+    "shareId": "S69560-51875-09039-19678",
     "customImage": "assets/backup.jpg"
   }
 ]
