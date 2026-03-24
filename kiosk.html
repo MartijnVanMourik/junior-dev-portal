@@ -369,7 +369,14 @@
             try {
                 currentYear = year;
                 const response = await fetch(`datasources/${year}/games.json?t=` + Date.now());
-                games = await response.json();
+                let fetchedGames = await response.json();
+
+                // Willekeurige sortering (Fisher-Yates shuffle) zodat de games telkens in een andere volgorde staan
+                for (let i = fetchedGames.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [fetchedGames[i], fetchedGames[j]] = [fetchedGames[j], fetchedGames[i]];
+                }
+                games = fetchedGames;
 
                 currentIndex = 0; // Reset
                 if (games.length > 0) {
@@ -457,8 +464,8 @@
                         secretMenuIndex--;
                         renderSecretMenu();
                     }
-                } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Control') {
-                    // Control (A) of Enter = Selecteren
+                } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Control' || e.key === 'z' || e.key === 'Z') {
+                    // 'z', Control (A) of Enter = Selecteren
                     secretMenuOptions[secretMenuIndex].action();
                 } else if (e.key === 'Alt') {
                     // Alt (B) = Sluiten
@@ -474,8 +481,8 @@
             } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
                 currentIndex--;
                 render();
-            } else if (e.key === ' ' || e.key === 'Control') {
-                // --- Geheime Menu Check (Spatie of A-knop/Control) ---
+            } else if (e.key === ' ' || e.key === 'Control' || e.key === 'o' || e.key === 'O') {
+                // --- Geheime Menu Check ('o' is speler 2 button b) ---
                 const now = Date.now();
                 if (now - lastEnterTime < 2000) {
                     enterPresses++;
