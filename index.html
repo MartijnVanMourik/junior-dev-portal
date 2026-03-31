@@ -388,15 +388,16 @@
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 ml-2">Algemeen</p>
                 <button onclick="showLesson('overview')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
-                    <i class="fas fa-map-signs mr-3 opacity-50"></i> Cursus Overzicht
+                    <i class="fas fa-map-signs w-6 inline-block text-center mr-3 opacity-50"></i> Cursus Overzicht
                 </button>
                 <button onclick="showLesson('arcade-guide')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2 active">
-                    <i class="fas fa-book-open mr-3 opacity-50"></i> MakeCode Arcade Gids
+                    <i class="fas fa-book-open w-6 inline-block text-center mr-3 opacity-50"></i> MakeCode Arcade Gids
                 </button>
                 <button onclick="showLesson('game-design')"
                     class="sidebar-link w-full flex items-center text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-6">
-                    <i class="fas fa-gamepad mr-3 flex-shrink-0 opacity-50"></i> <span>Hoe bedenk je een VETTE
+                    <i class="fas fa-gamepad w-6 inline-block flex-shrink-0 text-center mr-3 opacity-50"></i> <span>Hoe
+                        bedenk je een VETTE
                         game?</span>
                 </button>
 
@@ -404,34 +405,34 @@
                     style="margin-top: 16px; margin-bottom: 16px;">Training Levels</p>
                 <button onclick="showLesson('week1')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
-                    <span class="mr-3 opacity-50">01</span> De Fundering
+                    <span class="w-6 text-center inline-block mr-3 opacity-50">01</span> De Fundering
                 </button>
                 <button onclick="showLesson('week2')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
-                    <span class="mr-3 opacity-50">02</span> Space Shooter
+                    <span class="w-6 text-center inline-block mr-3 opacity-50">02</span> Space Shooter
                 </button>
                 <button onclick="showLesson('week3')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
-                    <span class="mr-3 opacity-50">03</span> Verhaal en keuzes
+                    <span class="w-6 text-center inline-block mr-3 opacity-50">03</span> Verhaal en keuzes
                 </button>
                 <button onclick="showLesson('week4')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-6">
-                    <span class="mr-3 opacity-50">04</span> Werelden Bouwen
+                    <span class="w-6 text-center inline-block mr-3 opacity-50">04</span> Werelden Bouwen
                 </button>
 
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-2"
                     style="margin-top: 16px; margin-bottom: 16px;">The Big Project</p>
                 <button onclick="showLesson('week5')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
-                    <span class="mr-3 opacity-50">05</span> De Blauwdruk
+                    <span class="w-6 text-center inline-block mr-3 opacity-50">05</span> De Blauwdruk
                 </button>
                 <button onclick="showLesson('week6')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
-                    <span class="mr-3 opacity-50">06</span> De Bouwfase
+                    <span class="w-6 text-center inline-block mr-3 opacity-50">06</span> De Bouwfase
                 </button>
                 <button onclick="showLesson('week7')"
                     class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2">
-                    <span class="mr-3 opacity-50">07</span> Launch Day!
+                    <span class="w-6 text-center inline-block mr-3 opacity-50">07</span> Launch Day!
                 </button>
             </div>
 
@@ -939,10 +940,16 @@
 
                             <!-- Slides 1 & 2 -->
                             <div class="space-y-6">
-                                <img src="assets/gamedesign_slide_1.jpg" alt="Game Design Intro"
-                                    class="w-full rounded-2xl shadow-md border-4 border-slate-100 dark:border-slate-700 transition-transform hover:scale-[1.02]">
-                                <img src="assets/gamedesign_slide_2.jpg" alt="Game Design Elementen"
-                                    class="w-full rounded-2xl shadow-md border-4 border-slate-100 dark:border-slate-700 transition-transform hover:scale-[1.02]">
+                                <a href="assets/gamedesign_slide_1.jpg" target="_blank"
+                                    class="block cursor-zoom-in group relative overflow-hidden rounded-2xl transition-transform hover:-translate-y-1 hover:shadow-lg">
+                                    <img src="assets/gamedesign_slide_1.jpg" alt="Game Design Intro"
+                                        class="w-full rounded-2xl shadow-md border-4 border-slate-100 dark:border-slate-700 transition-transform group-hover:scale-[1.02]">
+                                </a>
+                                <a href="assets/gamedesign_slide_2.jpg" target="_blank"
+                                    class="block cursor-zoom-in group relative overflow-hidden rounded-2xl transition-transform hover:-translate-y-1 hover:shadow-lg">
+                                    <img src="assets/gamedesign_slide_2.jpg" alt="Game Design Elementen"
+                                        class="w-full rounded-2xl shadow-md border-4 border-slate-100 dark:border-slate-700 transition-transform group-hover:scale-[1.02]">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -969,8 +976,11 @@
                                             wees streng: gooi te grote ideeën direct weg (Won't Haves). Focus op één
                                             klein cool ding.</p>
                                     </div>
-                                    <img src="assets/gamedesign_slide_3.jpg" alt="MoSCoW Methode"
-                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    <a href="assets/gamedesign_slide_3.jpg" target="_blank"
+                                        class="block cursor-zoom-in group relative overflow-hidden rounded-xl transition-transform hover:-translate-y-1 hover:shadow-lg">
+                                        <img src="assets/gamedesign_slide_3.jpg" alt="MoSCoW Methode"
+                                            class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    </a>
                                 </div>
                             </div>
 
@@ -978,8 +988,11 @@
                             <div
                                 class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border-l-4 border-pink-500 transition-transform hover:-translate-y-1 hover:shadow-md">
                                 <div class="grid md:grid-cols-2 gap-8 items-center">
-                                    <img src="assets/gamedesign_slide_4.jpg" alt="Mechanics en Objecten"
-                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600 md:order-1 order-2">
+                                    <a href="assets/gamedesign_slide_4.jpg" target="_blank"
+                                        class="block cursor-zoom-in group relative overflow-hidden rounded-xl transition-transform hover:-translate-y-1 hover:shadow-lg md:order-1 order-2">
+                                        <img src="assets/gamedesign_slide_4.jpg" alt="Mechanics en Objecten"
+                                            class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    </a>
                                     <div class="md:order-2 order-1">
                                         <span class="step-number mb-4" style="background-color: #ec4899;">2</span>
                                         <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Mechanics
@@ -1005,8 +1018,11 @@
                                             laat blokken steeds sneller vallen. Begin makkelijk en bouw de moeilijkheid
                                             op (Flow). Zorg voor balans: sterke vijanden moeten juist traag zijn.</p>
                                     </div>
-                                    <img src="assets/gamedesign_slide_5.jpg" alt="Tijd en Flow"
-                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    <a href="assets/gamedesign_slide_5.jpg" target="_blank"
+                                        class="block cursor-zoom-in group relative overflow-hidden rounded-xl transition-transform hover:-translate-y-1 hover:shadow-lg">
+                                        <img src="assets/gamedesign_slide_5.jpg" alt="Tijd en Flow"
+                                            class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    </a>
                                 </div>
                             </div>
 
@@ -1014,8 +1030,11 @@
                             <div
                                 class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border-l-4 border-emerald-500 transition-transform hover:-translate-y-1 hover:shadow-md">
                                 <div class="grid md:grid-cols-2 gap-8 items-center">
-                                    <img src="assets/gamedesign_slide_6.jpg" alt="Feedback en Juice"
-                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600 md:order-1 order-2">
+                                    <a href="assets/gamedesign_slide_6.jpg" target="_blank"
+                                        class="block cursor-zoom-in group relative overflow-hidden rounded-xl transition-transform hover:-translate-y-1 hover:shadow-lg md:order-1 order-2">
+                                        <img src="assets/gamedesign_slide_6.jpg" alt="Feedback en Juice"
+                                            class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    </a>
                                     <div class="md:order-2 order-1">
                                         <span class="step-number mb-4" style="background-color: #10b981;">4</span>
                                         <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Geef Feedback
@@ -1024,7 +1043,8 @@
                                             moet direct weten of hij goed bezig is. Laat de score oplopen, toon levens
                                             of speel een geluidje 🎵 af. Maak je game levendig met een
                                             achtergrondverhaal, <code>scene.cameraShake()</code> en knallende
-                                            <code>effects.confetti.start()</code>!</p>
+                                            <code>effects.confetti.start()</code>!
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -1042,8 +1062,11 @@
                                                 jouw uitleg</em>? Werkt de besturing soepel en klopt de feedback?
                                             Luister goed en doe verbeteringen!</p>
                                     </div>
-                                    <img src="assets/gamedesign_slide_7.jpg" alt="Alpha Testing"
-                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    <a href="assets/gamedesign_slide_7.jpg" target="_blank"
+                                        class="block cursor-zoom-in group relative overflow-hidden rounded-xl transition-transform hover:-translate-y-1 hover:shadow-lg">
+                                        <img src="assets/gamedesign_slide_7.jpg" alt="Alpha Testing"
+                                            class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                    </a>
                                 </div>
                             </div>
 
@@ -2563,6 +2586,24 @@
                         </div>
                     </div>
 
+                    <!-- Blauwdruk Reminder Banner -->
+                    <div
+                        class="bg-violet-50 dark:bg-violet-900 border-l-4 border-violet-500 p-6 rounded-2xl mb-12 flex flex-col md:flex-row items-center md:items-start gap-4 shadow-sm transition-transform hover:-translate-y-1">
+                        <div class="text-violet-500 text-3xl shrink-0">💡</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-violet-800 dark:text-violet-100 text-lg mb-2">Hoe bedenk je een
+                                écht goede game?</h4>
+                            <p class="text-sm text-violet-700 dark:text-violet-200 mb-4">Voordat je zomaar alles in de
+                                blender gooit (een open wereld met zombies, auto's én lasers)... leer hoe je een game
+                                ontwerpt met de <strong>MoSCoW-methode</strong>! Krijg tips over goede spelregels,
+                                "Flow" en hoe je je game extra "Juice" 🧃 geeft.</p>
+                            <button onclick="showLesson('game-design')"
+                                class="bg-violet-600 hover:bg-violet-500 text-white px-4 py-3 rounded-xl font-bold text-xs transition-all shadow-sm">
+                                <i class="fas fa-gamepad mr-2"></i> BEKIJK DE GAMEDESIGN MODULE
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="bg-amber-600 p-8 rounded-3xl text-white shadow-xl shadow-amber-100 mb-12">
                         <h3 class="font-bold text-xl mb-4 text-amber-100">
                             <i class="fas fa-tasks mr-2"></i> Missie: De 3 Opdrachten
@@ -2587,7 +2628,7 @@
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <a href="assets/gamedesign_ontwerp.pdf" target="_blank"
+                            <a href="assets/gamedesign_slideshow.pdf" target="_blank"
                                 class="inline-flex items-center gap-3 bg-white text-amber-600 px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-amber-50 transition-all">
                                 <i class="fas fa-file-pdf text-xl text-red-500"></i>
                                 DOWNLOAD GAME DESIGN PLAN & LOGBOEK
@@ -2790,7 +2831,7 @@
                             </li>
                         </ul>
                         <div class="mt-8 flex justify-center">
-                            <a href="assets/gamedesign_ontwerp.pdf" target="_blank"
+                            <a href="assets/gamedesign_slideshow.pdf" target="_blank"
                                 class="inline-flex items-center gap-3 bg-white text-orange-600 px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-orange-50 transition-all border border-orange-200">
                                 <i class="fas fa-file-pdf text-xl text-red-500"></i>
                                 DOWNLOAD GAME DESIGN PLAN & LOGBOEK
@@ -2917,7 +2958,9 @@
                         </h3>
                         <p class="text-sm mb-4 text-slate-600 dark:text-slate-300 leading-relaxed">
                             Alle werkende games zullen op de arcadekast worden gezet voor de officiële <strong>HFLikes
-                                afsluiting</strong>!
+                                afsluiting</strong>! De beste games zullen worden getoond op de volgende <strong>open
+                                dag</strong>
+                            van het HF.
                         </p>
                         <div
                             class="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 mb-8 flex flex-col md:flex-row gap-6 items-center">
@@ -2927,9 +2970,13 @@
                                     Spel inleveren voor
                                     Arcadekast:</p>
                                 <p class="text-[11px] mb-4 text-slate-500 dark:text-slate-400 leading-relaxed">
-                                    1. Klik in MakeCode op <strong>Share</strong> (de paarse knop).<br>
-                                    2. Klik vervolgens op <strong>Publish Project</strong>.<br>
-                                    3. <strong>Kopieer de link</strong> en plak deze samen met de titel van je spel en
+                                    1. Klik rechts bovenin in MakeCode op de oranje <strong>Share</strong> knop <span
+                                        class="inline-flex items-center gap-2 bg-[#ea5514] text-white rounded px-2 py-1 text-[10px] uppercase font-bold tracking-wider mx-1 shadow-sm"><i
+                                            class="fas fa-share-nodes"></i></span>.<br>
+                                    2. Update desgewenst je <strong>project thumbnail</strong> en <strong>project
+                                        name</strong>.<br>
+                                    3. Klik vervolgens op <strong>Publish Project</strong>.<br>
+                                    4. <strong>Kopieer de link</strong> en plak deze samen met de titel van je spel en
                                     je naam in een lege regel in het Inlever-formulier!
                                 </p>
                                 <div class="flex flex-col sm:flex-row gap-3">
