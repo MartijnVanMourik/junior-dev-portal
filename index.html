@@ -391,8 +391,13 @@
                     <i class="fas fa-map-signs mr-3 opacity-50"></i> Cursus Overzicht
                 </button>
                 <button onclick="showLesson('arcade-guide')"
-                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-6 active">
+                    class="sidebar-link w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-2 active">
                     <i class="fas fa-book-open mr-3 opacity-50"></i> MakeCode Arcade Gids
+                </button>
+                <button onclick="showLesson('game-design')"
+                    class="sidebar-link w-full flex items-center text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all mb-6">
+                    <i class="fas fa-gamepad mr-3 flex-shrink-0 opacity-50"></i> <span>Hoe bedenk je een VETTE
+                        game?</span>
                 </button>
 
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 ml-2"
@@ -869,6 +874,179 @@
                                         inlevert!</span>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GAME DESIGN MODULE -->
+                <div id="game-design" class="lesson-card">
+                    <div class="mb-12">
+                        <span class="mission-badge">Theorie</span>
+                        <h2 class="text-4xl font-extrabold text-slate-900 dark:text-white mt-4 mb-4">Hoe bedenk je een
+                            VETTE game?</h2>
+                        <p class="text-lg text-slate-600 dark:text-slate-400 mb-6">Voordat we naar de code gaan, moeten
+                            we weten hoe we een goed idee bedenken. Te veel ideeën in één keer (zoals "een open wereld
+                            survival game met zombies en auto's") stopt je project! Ontdek hier hoe het écht moet,
+                            Junior Developer! 🎮🚀</p>
+
+                        <!-- PDF Download/Bekijk knop -->
+                        <a href="assets/gamedesign_slideshow.pdf" target="_blank"
+                            class="inline-block bg-violet-600 hover:bg-violet-500 text-white py-3 px-6 rounded-xl font-bold transition-all shadow-lg shadow-violet-200 dark:shadow-none mb-4">
+                            <i class="fas fa-file-pdf mr-2"></i> BEKIJK PDF SLIDES
+                        </a>
+                    </div>
+
+                    <!-- Deel 1: Wat is een game eigenlijk? -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Deel 1: Wat is een game
+                            eigenlijk?</h3>
+
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Uitleg 5 basiselementen -->
+                            <div
+                                class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                                <p class="text-slate-600 dark:text-slate-300 mb-6 font-semibold">Elke game (van een
+                                    simpel bordspel tot een grote computergame) bestaat uit deze vijf vaste
+                                    basiselementen:</p>
+                                <ul class="space-y-4 text-sm text-slate-600 dark:text-slate-300">
+                                    <li class="flex items-start gap-3">
+                                        <i class="fas fa-bullseye text-violet-500 mt-1"></i>
+                                        <span><strong>Doel:</strong> Waar werk je naartoe als speler? O.a. een eindbaas
+                                            verslaan, level uitspelen of highscore halen.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fas fa-mountain text-pink-500 mt-1"></i>
+                                        <span><strong>Uitdagingen:</strong> Obstakels die de speler moet weerstaan om
+                                            het doel te bereiken.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fas fa-balance-scale text-emerald-500 mt-1"></i>
+                                        <span><strong>Regels:</strong> Wat mag je <em>wel</em> of <em>niet</em> doen in
+                                            de game?</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fas fa-globe text-blue-500 mt-1"></i>
+                                        <span><strong>Spelwereld:</strong> De losstaande en verzonnen realiteit waarin
+                                            dit alles plaatsvindt.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fas fa-smile-beam text-amber-500 mt-1"></i>
+                                        <span><strong>Fun (Lol):</strong> Misschien wel de belangrijkste... is het over
+                                            het algemeen leuk om te spelen?! 😄</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Slides 1 & 2 -->
+                            <div class="space-y-6">
+                                <img src="assets/gamedesign_slide_1.jpg" alt="Game Design Intro"
+                                    class="w-full rounded-2xl shadow-md border-4 border-slate-100 dark:border-slate-700 transition-transform hover:scale-[1.02]">
+                                <img src="assets/gamedesign_slide_2.jpg" alt="Game Design Elementen"
+                                    class="w-full rounded-2xl shadow-md border-4 border-slate-100 dark:border-slate-700 transition-transform hover:scale-[1.02]">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deel 2: Stappenplan -->
+                    <div class="mb-4">
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Deel 2: Jouw eigen game in 5
+                            stappen</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-8 italic">Onthoud: een kleine, goed werkende
+                            game is veel VETTER dan een grote onafgemaakte game.</p>
+
+                        <div class="space-y-8">
+
+                            <!-- Stap 1 -->
+                            <div
+                                class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border-l-4 border-violet-500 transition-transform hover:-translate-y-1 hover:shadow-md">
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <div>
+                                        <span class="step-number mb-4" style="background-color: #8b5cf6;">1</span>
+                                        <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Kies je Doel
+                                            &amp; Gebruik de MoSCoW-methode</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                            Bepaal je <strong>'Must Haves'</strong> (bijv. bewegen, winnen, doodgaan) en
+                                            wees streng: gooi te grote ideeën direct weg (Won't Haves). Focus op één
+                                            klein cool ding.</p>
+                                    </div>
+                                    <img src="assets/gamedesign_slide_3.jpg" alt="MoSCoW Methode"
+                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                </div>
+                            </div>
+
+                            <!-- Stap 2 -->
+                            <div
+                                class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border-l-4 border-pink-500 transition-transform hover:-translate-y-1 hover:shadow-md">
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <img src="assets/gamedesign_slide_4.jpg" alt="Mechanics en Objecten"
+                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600 md:order-1 order-2">
+                                    <div class="md:order-2 order-1">
+                                        <span class="step-number mb-4" style="background-color: #ec4899;">2</span>
+                                        <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Mechanics
+                                            &amp; Objecten (De Regels en de Spullen)</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Wat kan je
+                                            held allemaal doen? Welke objecten zitten er in je game om te verzamelen of
+                                            ontwijken? Bedenk goed wat de regel is als jouw held zo'n object raakt
+                                            (botsing of overlap). 💥</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stap 3 -->
+                            <div
+                                class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border-l-4 border-amber-500 transition-transform hover:-translate-y-1 hover:shadow-md">
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <div>
+                                        <span class="step-number mb-4" style="background-color: #f59e0b;">3</span>
+                                        <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Speel met Tijd
+                                            &amp; Vind de Flow</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">Maak
+                                            je game spannend door tijd te gebruiken! Voeg een aftellende timer ⏱️ toe of
+                                            laat blokken steeds sneller vallen. Begin makkelijk en bouw de moeilijkheid
+                                            op (Flow). Zorg voor balans: sterke vijanden moeten juist traag zijn.</p>
+                                    </div>
+                                    <img src="assets/gamedesign_slide_5.jpg" alt="Tijd en Flow"
+                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                </div>
+                            </div>
+
+                            <!-- Stap 4 -->
+                            <div
+                                class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border-l-4 border-emerald-500 transition-transform hover:-translate-y-1 hover:shadow-md">
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <img src="assets/gamedesign_slide_6.jpg" alt="Feedback en Juice"
+                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600 md:order-1 order-2">
+                                    <div class="md:order-2 order-1">
+                                        <span class="step-number mb-4" style="background-color: #10b981;">4</span>
+                                        <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Geef Feedback
+                                            &amp; Voeg de "Juice" toe 🧃</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">De speler
+                                            moet direct weten of hij goed bezig is. Laat de score oplopen, toon levens
+                                            of speel een geluidje 🎵 af. Maak je game levendig met een
+                                            achtergrondverhaal, <code>scene.cameraShake()</code> en knallende
+                                            <code>effects.confetti.start()</code>!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stap 5 -->
+                            <div
+                                class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border-l-4 border-blue-500 transition-transform hover:-translate-y-1 hover:shadow-md">
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <div>
+                                        <span class="step-number mb-4" style="background-color: #3b82f6;">5</span>
+                                        <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Laat je Buddy
+                                            testen (Alpha Test)</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">Geef
+                                            je game aan je buurman/buurvrouw. Is het doel direct duidelijk <em>zonder
+                                                jouw uitleg</em>? Werkt de besturing soepel en klopt de feedback?
+                                            Luister goed en doe verbeteringen!</p>
+                                    </div>
+                                    <img src="assets/gamedesign_slide_7.jpg" alt="Alpha Testing"
+                                        class="w-full rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
