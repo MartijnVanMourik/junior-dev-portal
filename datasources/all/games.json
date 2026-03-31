@@ -1,5 +1,11 @@
 [
   {
+    "name": "Cat Platformer",
+    "author": "Daan",
+    "shareId": "S90678-82443-38173-98998",
+    "customImage": "assets/backup.jpg"
+  },
+  {
     "name": "corupted secrets",
     "author": "sander",
     "shareId": "S33029-14423-51439-09229",
@@ -30,9 +36,15 @@
     "customImage": "assets/backup.jpg"
   },
   {
-    "name": "Jumpy Platformer",
-    "author": "System",
-    "shareId": "S93928-20650-41118-65836",
+    "name": "Jumper",
+    "author": "Tobias",
+    "shareId": "S67946-96443-36832-72229",
+    "customImage": "assets/backup.jpg"
+  },
+  {
+    "name": "Lego platformer",
+    "author": "Quinn",
+    "shareId": "S69403-41182-47980-13320",
     "customImage": "assets/backup.jpg"
   },
   {
@@ -43,7 +55,7 @@
   },
   {
     "name": "Mario Jump",
-    "author": "Ian",
+    "author": "Ian tang",
     "shareId": "S58643-42127-86027-69349",
     "customImage": "assets/backup.jpg"
   },
@@ -54,7 +66,7 @@
     "customImage": "assets/backup.jpg"
   },
   {
-    "name": "miceal en zijn moooie deurbel",
+    "name": "micheal en zijn deurbel",
     "author": "Mitchel",
     "shareId": "S66763-56432-74321-05314",
     "customImage": "assets/backup.jpg"
@@ -72,9 +84,9 @@
     "customImage": "assets/backup.jpg"
   },
   {
-    "name": "Spookey The Game!",
+    "name": "Spookey The Game 1!!!",
     "author": "Kian",
-    "shareId": "S65358-26697-52541-45725",
+    "shareId": "S00171-11480-41998-53123",
     "customImage": "assets/backup.jpg"
   },
   {
@@ -84,9 +96,9 @@
     "customImage": "assets/backup.jpg"
   },
   {
-    "name": "Test Game (2 player)",
-    "author": "Martijn",
-    "shareId": "S84673-62697-54728-12737",
+    "name": "The Monky",
+    "author": "Guus",
+    "shareId": "S14822-00479-20563-97684",
     "customImage": "assets/backup.jpg"
   },
   {
